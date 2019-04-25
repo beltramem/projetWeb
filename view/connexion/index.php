@@ -11,6 +11,7 @@
 	</p>
 	</form>
 	<button type="submit" form="form1" value="Submit">se connecter</button>
+	<a href="?page=accountCreate"><button>créer un compte</button>
 		
 	</section>
 </body>

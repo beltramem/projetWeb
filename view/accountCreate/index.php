@@ -18,6 +18,6 @@
 	</p>
 	</form>
 	<button type="submit" form="form1" value="Submit">Créer le compte</button>
-		
+	<a href="."><button>retour</button>	</a>
 	</section>
 </body>
