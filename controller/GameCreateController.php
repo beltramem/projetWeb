@@ -1,6 +1,6 @@
 <?php
 
-class GameController extends Controller 
+class GameCreateController extends Controller 
 {
 	public function __construct() 
 	{
@@ -552,8 +552,16 @@ class GameController extends Controller
 
 	public function index() 
 	{
-		$this->create_map();
-		$this->render("index");
+		
+		if(isset($_POST["submit"]))
+		{
+			$this->create_map();
+		}
+		else
+		{
+			$this->create_map();
+			$this->render("index");
+		}
 	}
 
 	public function about()

@@ -4,7 +4,7 @@
 				<li class="titre">Les Blaireaux et les Kékés</li>
 				<li><img class="menu" src="img/menu.png"></img></li>
 			</ul>
-			<img class="play-button" src="img/play-button.png"></img>
+			<a href="?page=gameSelect"><img class="play-button" src="img/play-button.png"></img></a>
 		</nav>
 	</header>
 	<div class="retractable-menu">
