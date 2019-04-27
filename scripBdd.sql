@@ -139,6 +139,7 @@ INSERT INTO `player` (`pseudo`, `mail`, `admin`, `inspectate`, `mdp`) VALUES
 --
 
 CREATE TABLE `playerstat` (
+  `id` int(11) NOT NULL,
   `player` varchar(30) NOT NULL,
   `game` int(11) NOT NULL,
   `posX` int(11) NOT NULL,
@@ -207,7 +208,8 @@ ALTER TABLE `player`
 -- Index pour la table `playerstat`
 --
 ALTER TABLE `playerstat`
-  ADD PRIMARY KEY (`player`,`game`),
+  ADD PRIMARY KEY (`id`,`game`),
+  ADD KEY `player` (`player`),
   ADD KEY `game` (`game`);
 
 --
