@@ -4,11 +4,11 @@
 		
 	<form method="post" action="" id="form1">
 	<p>
-		<label for="private"> partie privée :</label><input type="checkbox" name="private" id="private"/>
+		<label for="private"> partie privée :</label><input type="checkbox" name="private" id="private" name="private"/>
 	</p>
 		<p>
 		<label for="nbPlayer">Nombre de joueurs :</label>
-		<select>
+		<select name="nbPlayer">
 			<option value="3">3</option>
 			<option value="5">5</option>
 			<option value="7">7</option>
@@ -16,32 +16,27 @@
 		</select>
 	</p>
 	<p>	
-		<label for="duration">durée (3à10min):</label>
-		
-		<input type="range" min="180" max="600" list="tickmarks">
-		
-		<datalist id="tickmarks">
-			<option value="180" label="3min">
-			<option value="210">
-			<option value="240">
-			<option value="270">
-			<option value="300">
-			<option value="330">
-			<option value="360" label="6min">
-			<option value="390">
-			<option value="420">
-			<option value="450">
-			<option value="480">
-			<option value="510">
-			<option value="540">
-			<option value="570">
-			<option value="600" label="10min">
-		</datalist>
+		<label for="duration">durée (3min à 10min30):</label>
+		<select name="durationMin">
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+		</select>
+		<label>min</label>
+		<select name="durationSec">
+			<option value="0">0</option>
+			<option value="30">30</option>
+		</select>
 
 		
 	</p>	
 	</form>
-	<button type="submit" form="form1" value="Submit">Créer la partie</button>
+	<button type="submit" form="form1" name="submit" value="Submit">Créer la partie</button>
 	<a href="?page=gameSelect"><button>retour</button>	</a>
 	
 	</section>

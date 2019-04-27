@@ -24,34 +24,49 @@ DELIMITER $$
 --
 -- Procédures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_game` (IN `p_id` INT, IN `p_private` TINYINT(1), IN `p_state` VARCHAR(50))  BEGIN 
-	INSERT into game (id, private, state) VALUES (p_id, p_private, p_state);
+DROP PROCEDURE IF EXISTS `add_game`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_game` (IN `p_private` TINYINT(1), IN `p_nbPlayer` INT, IN `p_duration` INT)  BEGIN 
+	INSERT into game (private,nbPlayer,duration,state) VALUES (p_private,p_nbPlayer,p_duration,"create");
+    SELECT LAST_INSERT_ID();
 END$$
 
+DROP PROCEDURE IF EXISTS `add_ground`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_ground` (IN `p_placex` INT, IN `p_placey` INT, IN `p_map` INT)  NO SQL
 BEGIN
 	insert into square(placex,placey,val,map) VALUES (p_placex,p-placey,0,p_map);
 END$$
 
+DROP PROCEDURE IF EXISTS `add_invitation`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_invitation` (IN `p_id` INT, IN `p_author` VARCHAR(30), IN `p_recipient` VARCHAR(30), IN `p_game` INT, IN `p_state` VARCHAR(50))  BEGIN
 	INSERT INTO invitation (id,author,recipient,game,state) VALUES (p_id, p_author, p_recipient, p_game, p_state);
 END$$
 
+DROP PROCEDURE IF EXISTS `add_map`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_map` (IN `p_game` INT, IN `p_nbx` INT, IN `p_nby` INT)  NO SQL
+BEGIN
+
+INSERT into map(game,nbx,nby) values (p_game,p_nbx,p_nby);
+END$$
+
+DROP PROCEDURE IF EXISTS `add_player`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_player` (IN `p_pseudo` VARCHAR(30), IN `p_mail` VARCHAR(150), IN `p_mdp` VARCHAR(150))  BEGIN
 	INSERT INTO player (pseudo,mail,mdp,admin,inspectate) VALUES (p_pseudo,p_mail,p_mdp,0,null);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_wall` (IN `p_placex` INT, IN `p_placey` INT, IN `p_map` INT)  NO SQL
+DROP PROCEDURE IF EXISTS `add_square`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_square` (IN `p_placex` INT, IN `p_placey` INT, IN `p_map` INT, IN `p_val` INT)  NO SQL
 BEGIN
-	insert into square(placex,placey,val,map) VALUES (p_placex,p-placey,1,p_map);
+	insert into square(placex,placey,val,map) VALUES (p_placex,p_placey,p_val,p_map);
 END$$
 
+DROP PROCEDURE IF EXISTS `join_game`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `join_game` (IN `p_ingame` INT, IN `p_pseudo` VARCHAR(30))  BEGIN
 	UPDATE player
     SET ingame = p_ingame
     where pseudo = p_pseudo;
 END$$
 
+DROP PROCEDURE IF EXISTS `spectate_game`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spectate_game` (IN `p_spectator` INT, IN `p_pseudo` VARCHAR(30))  BEGIN
 	UPDATE player
     	SET spectator = p_spectator

@@ -1,5 +1,7 @@
 <?php
 
+require("model/GameCreateModel.php");
+
 class GameCreateController extends Controller 
 {
 	public function __construct() 
@@ -500,6 +502,9 @@ class GameCreateController extends Controller
 	
 	public function create_map()
 	{
+		$model = new GameCreateModel;
+		
+		
 		$xSize = 30;
 		$ySize = 35;
 		// création tab
@@ -535,6 +540,7 @@ class GameCreateController extends Controller
 		$map = $this->powerup($xSize, $ySize, $map);
 		$map = $this->magic_pudlle($xSize, $ySize, $map);
 		
+		
 		// affichage debug
 		echo "<table>";
 		for($i=0 ; $i<$xSize; $i++)
@@ -548,6 +554,7 @@ class GameCreateController extends Controller
 		}
 		echo "</table>";
 		
+		return $map;
 	}
 
 	public function index() 
@@ -555,11 +562,24 @@ class GameCreateController extends Controller
 		
 		if(isset($_POST["submit"]))
 		{
-			$this->create_map();
+			$duration = $_POST["durationMin"]*60+$_POST["durationSec"];
+			if(isset($_POST["private"]))
+			{
+				$private = 1;
+			}
+			else
+			{
+				$private = 0;
+			}	
+			$model = new GameCreateModel();
+			$gameId = $model->add_game($duration,$private);
+			$map = $this->create_map();
+			// var_dump($map);
+			$model->stock_map($map,$gameId[0]);
 		}
 		else
 		{
-			$this->create_map();
+			//$this->create_map();
 			$this->render("index");
 		}
 	}

@@ -1,6 +1,6 @@
 <?php
 
-$db = new PDO("mysql:host=localhost;dbname=TheGame","root","");
+$db = new PDO("mysql:host=localhost;dbname=thegame","root","Em20032203");
 
 
 function db()

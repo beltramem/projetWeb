@@ -24,7 +24,10 @@ class ConnexionController extends Controller
 					header("Location: .");
 				}
 			}
-		}
+			else
+			{
+				$this->render("index");			}
+			}
 		else
 		{
 			$this->render("index");
