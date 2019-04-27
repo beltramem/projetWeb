@@ -542,17 +542,17 @@ class GameCreateController extends Controller
 		
 		
 		// affichage debug
-		echo "<table>";
-		for($i=0 ; $i<$xSize; $i++)
-		{ 
-			echo "<tr>";
-			for($j=0 ; $j<$ySize; $j++)
-			{
-				echo "<td>".$map[$i][$j]."</td>";
-			}
-			echo "</tr>";
-		}
-		echo "</table>";
+		// echo "<table>";
+		// for($i=0 ; $i<$xSize; $i++)
+		// { 
+			// echo "<tr>";
+			// for($j=0 ; $j<$ySize; $j++)
+			// {
+				// echo "<td>".$map[$i][$j]."</td>";
+			// }
+			// echo "</tr>";
+		// }
+		// echo "</table>";
 		
 		return $map;
 	}
@@ -576,6 +576,8 @@ class GameCreateController extends Controller
 			$map = $this->create_map();
 			// var_dump($map);
 			$model->stock_map($map,$gameId[0]);
+			$model->add_owner($gameId[0]);
+			header("Location: ?page=gameRoom&?game=".$gameId[0]);
 		}
 		else
 		{
