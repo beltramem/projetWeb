@@ -92,12 +92,15 @@ CREATE TABLE `friend` (
 -- Structure de la table `game`
 --
 
-CREATE TABLE `game` (
-  `id` int(11) NOT NULL,
-  `private` tinyint(1) DEFAULT NULL,
-  `nbPlayer` int(11) DEFAULT NULL,
-  `duration` int(11) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS game;
+CREATE TABLE IF NOT EXISTS game (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nbPlayer int(11) DEFAULT NULL,
+  duration int(11) DEFAULT NULL,
+  private tinyint(1) DEFAULT NULL,
+  state varchar(30) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -106,7 +109,7 @@ CREATE TABLE `game` (
 --
 
 CREATE TABLE `invitation` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `game` int(11) DEFAULT NULL,
   `author` varchar(30) DEFAULT NULL,
   `recipient` varchar(30) DEFAULT NULL,

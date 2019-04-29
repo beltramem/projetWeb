@@ -10,28 +10,32 @@ class GameRoomController extends Controller
 
 	public function index() 
 	{
-		$model = new ConnexionModel;
-		if(!empty($_POST["pseudo"]) && !empty($_POST["pass"]))
+		$idGame = parameters()["game"];
+		// echo $idGame;
+		$model = new GameRoomModel();
+		$data["players"] = $model->getPlayer($idGame);
+		$data["nbPlayer"] = $model->getNbPlayer();
+		$friends = $model->getFriend();
+		foreach ($friends as $friend)
 		{
-			
-			$player = $model->findBy("player","pseudo",$_POST["pseudo"]);
-			if($player!=null)
+			foreach($data["players"] as $player)
 			{
-				$md5Pass = md5($_POST["pass"]);
-				if($md5Pass == $player["mdp"])
+				if($friend==$player)
 				{
-					$_SESSION["pseudo"]=$_POST["pseudo"];
-					header("Location: .");
+					$data["friends"];
 				}
 			}
-			else
-			{
-				$this->render("index");			}
-			}
+		}
+		if (!isset($data["friends"]))
+		{
+			$data["friends"]=array("aucun amis à inviter");
+			$data["invitOk"]=false;
+		}
 		else
 		{
-			$this->render("index");
+			$data["invitOk"]=true;
 		}
+		$this->render("index",$data);
 	}
 
 	public function about()

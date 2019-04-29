@@ -7,18 +7,20 @@ class GameCreateModel extends Model
 	function add_game($duration,$private)
 	{
 		$query = "call add_game(".$private.",".$_POST["nbPlayer"].",".$duration.")";
-		//$query = "select * from game";
+		// echo $query;
 		$st = db()->prepare($query);
 		$st->execute();
 		$idGame = $st->fetch();
+		// var_dump($idGame);
 		return $idGame;
 	}
 	
 	function add_owner($id)
 	{
-		echo $id;
-		$query = "call add_playerStat('".$_SESSION["pseudo"]."',".$id.")";
-		db()->exec($query);
+		// echo $id;
+		$query = "call add_ownerStat('".$_SESSION["pseudo"]."',".$id.")";
+		echo $query;
+		db()->exec($query) or die("c'est pété");
 	}
 	
 	function stock_map($map,$id)
