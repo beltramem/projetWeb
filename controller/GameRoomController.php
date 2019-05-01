@@ -8,6 +8,14 @@ class GameRoomController extends Controller
 	public function __construct() 
 	{
 	}
+	
+	public function ivitPlayer()
+	{
+		$game = parameters()["game"];
+		$player = parameters()["player"];
+		$model = new GameRoomModel();
+		$model->invitPlayer($game,$player);
+	}
 
 	public function leave()
 	{
@@ -18,6 +26,10 @@ class GameRoomController extends Controller
 		if($_SESSION["pseudo"]==$owner[0])
 		{
 			$model->ownerLeave($game,$player);
+		}
+		else
+		{
+			
 		}
 		header("Location:.");
 	}

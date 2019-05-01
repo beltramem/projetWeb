@@ -19,9 +19,7 @@ function createXHR ( ) {
 }
 
 
-function execScript(game,player){
-	// console.log(game)
-	// console.log(player)
+function fireScript(game,player){
 	var request = createXHR()
 	request.onreadystatechange = function()
 	{
@@ -34,20 +32,43 @@ function execScript(game,player){
 	request.send()
 } 
 
+function inviteScript(game,player){
+	var request = createXHR()
+	request.open('GET', "?page=gameRoom/ivitPlayer/&game="+game+"&player="+player, true)
+	request.send()
+} 
+
 
 function init()
 {
 	var idGame = document.getElementById("gameId")
 	idGame = idGame.innerHTML
-	var fireButton = document.getElementsByClassName("fire")
+	
+	var inviteByName = document.getElementById("inviteByName")
+	inviteByName.onclick = function()
+		{
+			var player = document.getElementById("invitName").value;
+			inviteScript(idGame,player)
+		}
+	
+	var invitButton = document.getElementsByClassName("invitation")
+	for (var i=0;i<invitButton.length;i++)
+	{
+		invitButton[i].onclick = function()
+		{
+			var player = this.id
+			inviteScript(idGame,player)
+		}
+	}
+	
 	// console.log(fireButton[0]);
-
+	var fireButton = document.getElementsByClassName("fire")
 	for (var i=0;i<fireButton.length;i++)
 	{
 		fireButton[i].onclick = function()
 		{
 			var player = this.id
-			execScript(idGame,player)
+			fireScript(idGame,player)
 		}
 	}
 }

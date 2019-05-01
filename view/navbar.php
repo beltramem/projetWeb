@@ -13,7 +13,9 @@
 			<li class="deco"><a href="?page=connexion/disconnect">déconnexion</a></li> 
 			<li class="mode-menu"><a href="">Jour</a><a href="">nuit</a><a href="">noir</a></li> 
 			<li class="account-menu"><a href="">Mon compte</a></li>
-			<li class="friend-menu"><div class="fiends"></div></li>
-			<li class="invitation-menu"></li>
+			<li class="invitation-menu">
+				
+			</li>
 		</ul>
 	</div>
+<script type="text/javascript" src="./js/header.js"></script>

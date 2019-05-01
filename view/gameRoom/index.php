@@ -1,4 +1,4 @@
-<meta http-equiv="refresh" content="3" />
+<meta http-equiv="refresh" content="6" />
 <body>
 	<section class="button">
 		<a href="?page=gameRoom/leave/&game=<?= $data["game"] ?>"><button>quitter</button></a>
@@ -31,7 +31,7 @@
 		</table>
 		</section>
 		<section class="invite">
-		<label>Inviter un joueur (pseudo): </label><input type="text" id="name" name="name" maxlength="8"><button>inviter</button>	
+		<label>Inviter un joueur (pseudo): </label><input type="text" id="invitName" name="name" maxlength="8"><button id="inviteByName">inviter</button>	
 
 		<table id="friend">
 		<tr>
@@ -44,7 +44,7 @@
 				echo "<td>".$friend."</td>";
 				if ($data["invitOk"])
 				{	
-					echo "<td><button>inviter</button></td>";
+					echo "<td><button class=invitation id=".$friend.">inviter</button></td>";
 				}
 				echo"</tr>";
 			}
