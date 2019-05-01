@@ -43,7 +43,7 @@ class GameCreateModel extends Model
 	}
 	function addPositionBlaireau($positX,$positY){
 		
-		$players= db()->prepare('SELECT * FROM playerstat WHERE team=""  ORDER BY RAND() LIMIT 1');
+		$players= db()->prepare('SELECT * FROM playerstat WHERE team=0  ORDER BY RAND() LIMIT 1');
 		$players->execute();
 
 			if(isset($players))
@@ -51,7 +51,7 @@ class GameCreateModel extends Model
 				/*var_dump($players);
 				echo "je suis passée par ici aussi, baccho!";*/
 				while ($selection = $players->fetch() ){
-				    $upd=db()->exec('UPDATE playerstat SET posX='.$positX.', posY='.$positY.', team="blaireau" WHERE id='.$selection["id"]);
+				    $upd=db()->exec('UPDATE playerstat SET posX='.$positX.', posY='.$positY.', team=2 WHERE id='.$selection["id"]);
 
 				     
 				}
@@ -64,13 +64,13 @@ class GameCreateModel extends Model
 
 	function addPositionKeke($positX,$positY){
 
-		$players= db()->prepare('SELECT * FROM playerstat WHERE team=""  ORDER BY RAND() LIMIT 1');
+		$players= db()->prepare('SELECT * FROM playerstat WHERE team=0  ORDER BY RAND() LIMIT 1');
 		$players->execute();
 
 			if(isset($players))
 			{
 				while ($selection = $players->fetch() ){
-				    $upd=db()->exec('UPDATE playerstat SET posX='.$positX.', posY='.$positY.', team="keke" WHERE id='.$selection["id"]);
+				    $upd=db()->exec('UPDATE playerstat SET posX='.$positX.', posY='.$positY.', team=1 WHERE id='.$selection["id"]);
 				}
 			}
 			else{
