@@ -167,7 +167,7 @@ CREATE TABLE `playerstat` (
   `shield` tinyint(1) NOT NULL,
   `superView` tinyint(1) NOT NULL,
   `incognito` tinyint(1) NOT NULL,
-  `team` int(11) NOT NULL
+  `team` ENUM('blaireau','keke','','') NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -239,3 +239,7 @@ ALTER TABLE `square`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+													 
+INSERT INTO playerstat VALUES(1,"A",5,0,0,0,0,0,0,0,"");
+INSERT INTO playerstat VALUES(2,"B",5,0,0,0,0,0,0,0,"");
+INSERT INTO playerstat VALUES(3,"C",5,0,0,0,0,0,0,0,"");
