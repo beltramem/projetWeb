@@ -10,6 +10,23 @@ class GameRoomModel extends Model
 		$st->execute();
 	}
 	
+	function getOwner($game)
+	{
+		$query = "call get_owner(".$game.")";
+		$st = db()->prepare($query);
+		$st->execute();
+		$owner = $st->fetch();
+		// var_dump($query);
+		return $owner;
+	}
+	
+	function ownerLeave($game,$player)
+	{
+		$query = "call owner_leave(".$game.",'".$player."')";
+		$st = db()->prepare($query);
+		$st->execute();
+	}
+	
 	function getNbPlayer()
 	{
 		$query="call get_nb_player(".parameters()["game"].")";

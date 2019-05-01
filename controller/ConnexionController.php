@@ -15,6 +15,7 @@ class ConnexionController extends Controller
 		{
 			
 			$player = $model->findBy("player","pseudo",$_POST["pseudo"]);
+			// var_dump($_POST["pseudo"]);
 			if($player!=null)
 			{
 				$md5Pass = md5($_POST["pass"]);
@@ -23,15 +24,19 @@ class ConnexionController extends Controller
 					$_SESSION["pseudo"]=$_POST["pseudo"];
 					header("Location: .");
 				}
-			}
 			else
 			{
 				$this->render("index");			}
-			}
+		}
 		else
 		{
 			$this->render("index");
-		}
+		 }
+	}
+		else
+		{
+			$this->render("index");
+		 }
 	}
 
 	public function about()

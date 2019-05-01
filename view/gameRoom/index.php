@@ -1,5 +1,14 @@
-
+<meta http-equiv="refresh" content="3" />
 <body>
+	<section class="button">
+		<a href="?page=gameRoom/leave/&game=<?= $data["game"] ?>"><button>quitter</button></a>
+		<?php
+		if($data["startOk"])
+		{
+			echo "<a href='?page=gameRoom/start/&game=".$data['game']."><button>commencer la partie</button></a>";
+		}
+		?>
+	</section>
 	<section class="player">
 		<label>numéro de la partie = </label><label id="gameId"><?= $data["game"] ?></label>
 		<table id="players">
@@ -12,12 +21,16 @@
 			{
 				echo "<tr>";
 				echo "<td>".$player['player']."</td>";
-				echo "<td><button class=fire id=".$player["player"].">virer</button></td>";
+				if($data["fireOk"]==true)
+				{	
+					echo "<td><button class=fire id=".$player["player"].">virer</button></td>";
+				}
 				echo"</tr>";
 			}
 		?>
 		</table>
-		
+		</section>
+		<section class="invite">
 		<label>Inviter un joueur (pseudo): </label><input type="text" id="name" name="name" maxlength="8"><button>inviter</button>	
 
 		<table id="friend">

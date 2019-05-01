@@ -12,7 +12,26 @@ class GameRoomController extends Controller
 	public function leave()
 	{
 		$model = new GameRoomModel();
+		$owner = $this->getOwner();
+		$player = $_SESSION["pseudo"];
+		$game = parameters()["game"];
+		if($_SESSION["pseudo"]==$owner[0])
+		{
+			$model->ownerLeave($game,$player);
+		}
+		header("Location:.");
+	}
+	
+	public function start()
+	{
 		
+	}
+	
+	public function getOwner()
+	{
+		$model = new GameRoomModel();
+		$owner = $model->getOwner(parameters()["game"]);
+		return $owner;
 	}
 	
 	public function fire()
@@ -33,7 +52,7 @@ class GameRoomController extends Controller
 		$data["nbPlayer"] = $model->getNbPlayer();
 		return $data;
 	}
-	
+		
 	public function getFriend($data)
 	{
 		$model = new GameRoomModel();
@@ -68,11 +87,18 @@ class GameRoomController extends Controller
 		$data = array();
 		$data = $this->getPlayer($data);
 		$data = $this->getFriend($data);
+		$data["owner"] = $this->getOwner();
 		$data["game"]=parameters()["game"];
-		if ($data["nbPlayer"]==count($data["players"]))
+		$data["fireOk"]=false;	
+		if ($data["owner"][0] == $_SESSION["pseudo"])
+		{
+			$data["fireOk"]=true;
+		}
+		$data["startOk"]=false;
+		if ($_SESSION["pseudo"]==$data["owner"][0]&&($data["nbPlayer"]==count($data["players"])))
 		{
 			$data["startOk"]=true;
-		}else {$data["startOk"]=false;}
+		}
 		$this->render("index",$data);
 	}
 
