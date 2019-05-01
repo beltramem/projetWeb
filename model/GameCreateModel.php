@@ -41,7 +41,6 @@ class GameCreateModel extends Model
 			}
 		}
 	}
-	
 	function addPositionBlaireau($positX,$positY){
 		
 		$players= db()->prepare('SELECT * FROM playerstat WHERE team=""  ORDER BY RAND() LIMIT 1');
@@ -79,4 +78,6 @@ class GameCreateModel extends Model
 			}
 
 	}
+	
+	
 }
