@@ -41,4 +41,42 @@ class GameCreateModel extends Model
 			}
 		}
 	}
+	
+	function addPositionBlaireau($positX,$positY){
+		
+		$players= db()->prepare('SELECT * FROM playerstat WHERE team=""  ORDER BY RAND() LIMIT 1');
+		$players->execute();
+
+			if(isset($players))
+			{
+				/*var_dump($players);
+				echo "je suis passée par ici aussi, baccho!";*/
+				while ($selection = $players->fetch() ){
+				    $upd=db()->exec('UPDATE playerstat SET posX='.$positX.', posY='.$positY.', team="blaireau" WHERE id='.$selection["id"]);
+
+				     
+				}
+			}
+			else{
+				echo ("pas de joueurs blaireau!!!");
+			}
+
+	}
+
+	function addPositionKeke($positX,$positY){
+
+		$players= db()->prepare('SELECT * FROM playerstat WHERE team=""  ORDER BY RAND() LIMIT 1');
+		$players->execute();
+
+			if(isset($players))
+			{
+				while ($selection = $players->fetch() ){
+				    $upd=db()->exec('UPDATE playerstat SET posX='.$positX.', posY='.$positY.', team="keke" WHERE id='.$selection["id"]);
+				}
+			}
+			else{
+				echo ("pas de joueurs keke!!!");
+			}
+
+	}
 }
