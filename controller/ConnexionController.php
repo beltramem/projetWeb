@@ -7,6 +7,12 @@ class ConnexionController extends Controller
 	public function __construct() 
 	{
 	}
+	
+	public function disconnect()
+	{
+		unset($_SESSION["pseudo"]);
+		header("Location: .");
+	}
 
 	public function index() 
 	{
