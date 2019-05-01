@@ -23,6 +23,74 @@ class GameCreateController extends Controller
 			// }
 		// }
 	// }
+	//gentils 8 - méchants 9
+	public function PlayerInitPos($xSize,$ySize,$map){
+		$gc=new GameCreateModel();
+		//positionner les blaireaux
+		//ici, 1/3 des joueurs sont des blaireaux
+		//on place les blaireaux aléatoirement sur la carte
+		$nbPlayers=3;
+
+	    $nbBlaireau=(int)($nbPlayers/3);
+	    $nbAPoser=$nbBlaireau;
+	    
+	    for($i=0;$i<$nbBlaireau;$i++){
+	    $posCorrect=false;    
+	        
+	       while(!$posCorrect){
+	            $positX=rand(1,$xSize-2);
+	            $positY=rand(1,$ySize-2);
+	     		
+	     		//vérification que la case est bien vide
+	            if($map[$positX][$positY]==0){	                
+	            	$posCorrect=true;
+	            }
+	          
+	            
+	        }
+	        $map[$positX][$positY]=9;
+            $gc->addPositionBlaireau($positX,$positY);
+            
+		                
+		            
+		        
+		}
+
+		//positionner les kékés
+		//2/3 des joueurs sont des kékés
+		//on place les kékés aléatoirement sur la carte
+		$ecart=2;
+		$nbKeke=$nbPlayers-$nbBlaireau;
+		for($i=0;$i<$nbKeke;$i++){
+			
+			$posCorrect=false;
+			While(!$posCorrect){
+				$positX=rand(1,$xSize-2);
+				$positY=rand(1,$ySize-2);
+				$posCorrect=true;
+
+				//vérification que la case est bien vide
+				 if($map[$positX][$positY]!=0){
+	                $posCorrect==false;
+	            }
+
+	            //vérification qu'il n'y a pas un blaireau juste à côté
+	            for($i=$positX-1;$i<=$positX+1;$i++){
+	                for($j=$positY-1;$j<=$positY+1;$j++){
+	                    if($map[$i][$j]==9){
+	                        $posCorrect=false;
+	                    }
+	                }
+                }
+            }
+        }
+				
+			$posCorrect=true;
+			$gc->addPositionKeke($positX,$positY);
+			$map[$positX][$positY]=8;
+
+		return $map;
+	}
 	
 	public function powerup($xSize,$ySize,$map)
 	{
@@ -539,6 +607,7 @@ class GameCreateController extends Controller
 		$map = $this->fill_wall($xSize, $ySize, $map);
 		$map = $this->powerup($xSize, $ySize, $map);
 		$map = $this->magic_pudlle($xSize, $ySize, $map);
+		$map = $this->PlayerInitPos($xSize,$ySize,$map);
 		
 		
 		// affichage debug
