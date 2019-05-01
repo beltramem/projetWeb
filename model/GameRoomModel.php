@@ -3,6 +3,13 @@
 class GameRoomModel extends Model
 {
 	
+	function fire($game,$pseudo)
+	{
+		$query="call fireGame(".$game.",'".$pseudo."')";
+		$st = db()->prepare($query);
+		$st->execute();
+	}
+	
 	function getNbPlayer()
 	{
 		$query="call get_nb_player(".parameters()["game"].")";

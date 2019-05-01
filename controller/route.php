@@ -21,6 +21,7 @@ if(isset($_SESSION["pseudo"]))
 	if (isset(parameters()["page"]))
 	{
 		$route = parameters()["page"];
+		// var_dump($route);
 		if ("default")
 			list($controller, $action) = array("site","error");
 		if (strpos($route, "/") === FALSE)

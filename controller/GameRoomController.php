@@ -4,26 +4,40 @@ require("model/GameRoomModel.php");
 
 class GameRoomController extends Controller 
 {
+	
 	public function __construct() 
 	{
 	}
 
-	public function index() 
+	public function fire()
 	{
+		$game=parameters()["game"];
+		$pseudo=parameters()["player"];
+		$model = new GameRoomModel();
+		$model->fire($game,$pseudo);
+		$this->index();
+	}
+	
+	public function getPlayer($data)
+	{
+		$model = new GameRoomModel();
 		$idGame = parameters()["game"];
 		// echo $idGame;
-		$model = new GameRoomModel();
 		$data["players"] = $model->getPlayer($idGame);
 		$data["nbPlayer"] = $model->getNbPlayer();
+		return $data;
+	}
+	
+	public function getFriend($data)
+	{
+		$model = new GameRoomModel();
 		$friends = $model->getFriend();
+		$data["friends"]= array();
 		foreach ($friends as $friend)
 		{
-			foreach($data["players"] as $player)
+			if(!in_array($friend,$data["players"]))
 			{
-				if($friend==$player)
-				{
-					$data["friends"];
-				}
+				array_push($data["friends"], $friend);
 			}
 		}
 		if (!isset($data["friends"]))
@@ -35,6 +49,15 @@ class GameRoomController extends Controller
 		{
 			$data["invitOk"]=true;
 		}
+		return $data;
+	}
+	
+	public function index() 
+	{
+		$data = array();
+		$data = $this->getPlayer($data);
+		$data = $this->getFriend($data);
+		$data["game"]=parameters()["game"];
 		$this->render("index",$data);
 	}
 

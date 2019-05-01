@@ -1,6 +1,7 @@
-<meta http-equiv="refresh" content="5">
+
 <body>
 	<section class="player">
+		<label>numéro de la partie = </label><label id="gameId"><?= $data["game"] ?></label>
 		<table id="players">
 		<tr>
 			<th>joueurs</th>
@@ -11,13 +12,13 @@
 			{
 				echo "<tr>";
 				echo "<td>".$player['player']."</td>";
-				echo "<td><button onclick='execScript()'>virer</button></td>";
+				echo "<td><button class=fire id=".$player["player"].">virer</button></td>";
 				echo"</tr>";
 			}
 		?>
 		</table>
 		
-		<label>Inviter un joueur (pseudo): </label><input type="text" id="name" name="name" maxlength="8"><button>inviter</button>
+		<label>Inviter un joueur (pseudo): </label><input type="text" id="name" name="name" maxlength="8"><button>inviter</button>	
 
 		<table id="friend">
 		<tr>
