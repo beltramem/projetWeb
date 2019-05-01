@@ -10,7 +10,7 @@ class Controller
 		{
 			global $data;
 			include_once "view/header.php";
-			if(isset($_SESSION["pseudo"]))
+			if(isset($_SESSION["pseudo"])&& !isset(parameters()["page"]))
 			{
 				include_once "view/navbar.php";
 			}

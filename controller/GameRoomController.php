@@ -9,6 +9,12 @@ class GameRoomController extends Controller
 	{
 	}
 
+	public function leave()
+	{
+		$model = new GameRoomModel();
+		
+	}
+	
 	public function fire()
 	{
 		$game=parameters()["game"];
@@ -32,15 +38,20 @@ class GameRoomController extends Controller
 	{
 		$model = new GameRoomModel();
 		$friends = $model->getFriend();
-		$data["friends"]= array();
+		$data["friends"]= $friends;
 		foreach ($friends as $friend)
 		{
-			if(!in_array($friend,$data["players"]))
+			foreach($data["players"] as $player)
 			{
-				array_push($data["friends"], $friend);
+				if ($player['player'] == $friend)
+				{
+					$key = array_search($friend,$friends);
+					unset($data["friends"][$key]);
+				}
+				
 			}
 		}
-		if (!isset($data["friends"]))
+		if (count($data["friends"])<1)
 		{
 			$data["friends"]=array("aucun amis à inviter");
 			$data["invitOk"]=false;
@@ -58,6 +69,10 @@ class GameRoomController extends Controller
 		$data = $this->getPlayer($data);
 		$data = $this->getFriend($data);
 		$data["game"]=parameters()["game"];
+		if ($data["nbPlayer"]==count($data["players"]))
+		{
+			$data["startOk"]=true;
+		}else {$data["startOk"]=false;}
 		$this->render("index",$data);
 	}
 

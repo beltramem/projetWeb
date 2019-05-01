@@ -20,15 +20,14 @@ function createXHR ( ) {
 
 
 function execScript(game,player){
-	console.log(game)
-	console.log(player)
+	// console.log(game)
+	// console.log(player)
 	var request = createXHR()
 	request.onreadystatechange = function()
 	{
 			if(request.readyState===4)
 			{
-				var body = document.getElementsByTagName('body')
-				body[0].innerHTML = request.responseText
+				document.location.reload(true);
 			}
 	}
 	request.open('GET', "?page=gameRoom/fire/&game="+game+"&player="+player, true)
@@ -41,7 +40,7 @@ function init()
 	var idGame = document.getElementById("gameId")
 	idGame = idGame.innerHTML
 	var fireButton = document.getElementsByClassName("fire")
-	console.log(fireButton[0]);
+	// console.log(fireButton[0]);
 
 	for (var i=0;i<fireButton.length;i++)
 	{

@@ -6,10 +6,10 @@ class GameCreateModel extends Model
 	
 	function add_game($duration,$private)
 	{
-		$query = "call add_game(".$private.",".$_POST["nbPlayer"].",".$duration.")";
+		$query = "call add_game(".$private.",".$_POST["nbPlayer"].",".$duration.",'".$_SESSION["pseudo"]."')";
 		// echo $query;
 		$st = db()->prepare($query);
-		$st->execute();
+		$st->execute() or die("c'est pété");
 		$idGame = $st->fetch();
 		// var_dump($idGame);
 		return $idGame;
