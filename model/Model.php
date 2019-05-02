@@ -60,12 +60,8 @@ class Model
 		var_dump($query);
 		$st = db()->prepare($query);
 		$st->execute();
-		$list = array();
-		while($row = $st->fetch(PDO::FETCH_ASSOC))
-		{
-			$list[] = new $class($row["id".$table]);
-		}
-		return $list;
+		$resultat = $st->fetch();
+		return $resultat;
 	}
 	
 	public function __get($fieldName)
