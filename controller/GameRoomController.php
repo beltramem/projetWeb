@@ -38,7 +38,7 @@ class GameRoomController extends Controller
 		}
 		else
 		{
-			$model->leave($game, $player);
+			$model->leave($player);
 		}
 		header("Location:.");
 	}
@@ -64,7 +64,7 @@ class GameRoomController extends Controller
 		$this->index();
 	}
 	
-	public function getPlayer($data)
+	public function getPlayerdata($data)
 	{
 		$model = new GameRoomModel();
 		$idGame = parameters()["game"];
@@ -73,8 +73,22 @@ class GameRoomController extends Controller
 		$data["nbPlayer"] = $model->getNbPlayer();
 		return $data;
 	}
-		
-	public function getFriend($data)
+	
+	public function getplayerView()
+	{
+		$data = array();
+		$data = $this->getPlayerData($data);
+		$data["owner"] = $this->getOwner();
+		$data["fireOk"]=false;	
+		if ($data["owner"][0] == $_SESSION["pseudo"])
+		{
+			$data["fireOk"]=true;
+		}
+		$this->viewer("player",$data);
+
+	}
+	
+	public function getFriendData($data)
 	{
 		$model = new GameRoomModel();
 		$friends = $model->getFriend();
@@ -103,18 +117,21 @@ class GameRoomController extends Controller
 		return $data;
 	}
 	
+	public function getFriendView()
+	{
+		$data = array();
+		$data = $this->getPlayerdata($data);
+		$data = $this->getFriendData($data);
+		$this->viewer("friend",$data);
+	}
+	
 	public function index() 
 	{
 		$data = array();
-		$data = $this->getPlayer($data);
-		$data = $this->getFriend($data);
+		$data = $this->getPlayerData($data);
+		$data = $this->getFriendData($data);
 		$data["owner"] = $this->getOwner();
 		$data["game"]=parameters()["game"];
-		$data["fireOk"]=false;	
-		if ($data["owner"][0] == $_SESSION["pseudo"])
-		{
-			$data["fireOk"]=true;
-		}
 		$data["startOk"]=false;
 		if ($_SESSION["pseudo"]==$data["owner"][0]&&($data["nbPlayer"]==count($data["players"])))
 		{

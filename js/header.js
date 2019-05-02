@@ -1,3 +1,4 @@
+
 function createXHR ( ) {
 		var resultat = null ;
 		try { // test pour opera , Mozilla ,...

@@ -42,9 +42,10 @@ class GameRoomModel extends Model
 		$st->execute();
 	}
 	
-	function leave($game,$player)
+	function leave($player)
 	{
-		$query = "call leave(".$game.",'".$player."')";
+		$query = "call player_leave('".$player."')";
+		var_dump($query);
 		$st = db()->prepare($query);
 		$st->execute();
 	}

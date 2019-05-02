@@ -1,3 +1,5 @@
+
+
 function createXHR ( ) {
 		var resultat = null ;
 		try { // test pour opera , Mozilla ,...
@@ -25,7 +27,8 @@ function fireScript(game,player){
 	{
 			if(request.readyState===4)
 			{
-				document.location.reload(true);
+				var player_section = document.getElementById("player_section");
+				player_section.innerHTML = request.responseText
 			}
 	}
 	request.open('GET', "?page=gameRoom/fire/&game="+game+"&player="+player, true)
@@ -37,6 +40,39 @@ function inviteScript(game,player){
 	request.open('GET', "?page=gameRoom/ivitPlayer/&game="+game+"&player="+player, true)
 	request.send()
 } 
+
+
+function reloadplayer(game)
+{
+
+		var request = createXHR()
+	request.onreadystatechange = function()
+	{
+			if(request.readyState===4)
+			{
+				var player_section = document.getElementById("player_section");
+				player_section.innerHTML = request.responseText
+			}
+	}
+	request.open('GET', "?page=gameRoom/getPlayerView/&game="+game, true)
+	request.send()
+}
+
+function reloadfriend(game)
+{
+
+		var request = createXHR()
+	request.onreadystatechange = function()
+	{
+			if(request.readyState===4)
+			{
+				var friend_section = document.getElementById("friend_section");
+				friend_section.innerHTML = request.responseText
+			}
+	}
+	request.open('GET', "?page=gameRoom/getFriendView/&game="+game, true)
+	request.send()
+}
 
 
 function init()
@@ -71,6 +107,17 @@ function init()
 			fireScript(idGame,player)
 		}
 	}
+	chroneScript()
+}
+
+function chroneScript()
+{
+	var idGame = document.getElementById("gameId")
+	idGame = idGame.innerHTML
+	reloadplayer(idGame);
+	reloadfriend(idGame)
+	setTimeout(chroneScript,5000);
+	
 }
 
 window.onload =init()
