@@ -1,11 +1,9 @@
 <section>
-
 <ul>
 <?php
 foreach($data["invitations"] as $invitation)
 {
-	var_dump($invitation);
-	// echo "<li>".$invitation["game"].":".$invitation["author"]."</li>";
+	echo "<a href='?page=gameRoom/joinGame/&player=".$_SESSION['pseudo']."&game=".$invitation["game"]."'><li>".$invitation["game"].":".$invitation["author"]."</li></a>";
 }
 ?>
 </ul>

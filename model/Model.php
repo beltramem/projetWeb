@@ -40,16 +40,14 @@ class Model
 			}
 		}
 	}
-	public static function findAll()
+	public static function findAll($table)
 	{
-		$class =get_called_class();
-		$table = strtolower($class);
-		$st = db()->prepare("select id$table from $table");
+		$st = db()->prepare("select * from $table");
 		$st->execute();
 		$list = array();
 		while($row = $st->fetch(PDO::FETCH_ASSOC))
 		{
-			$list[] = new $class($row["id".$table]);
+			$list[] = $row;
 		}
 		return $list;
 	}
@@ -57,54 +55,17 @@ class Model
 	public static function findBy($table,$field,$value)
 	{
 		$query = "select * from ".$table." where ".$field."='".$value."'";
-		var_dump($query);
 		$st = db()->prepare($query);
 		$st->execute();
-		$resultat = $st->fetch();
-		return $resultat;
+		$list = array();
+		while($row = $st->fetch(PDO::FETCH_ASSOC))
+		{
+			$list[] = $row;
+		}
+		return $list;
 	}
 	
-	public function __get($fieldName)
-	{
-		$varName = "_".$fieldName;
-		if (property_exists(get_class($this), $varName))
-			return $this->$varName;
-		else
-			throw new Exception("Unknow variable: ".$fieldName);
-	}
-
-	public function __set($fieldName, $value)
-	{
-		$varName = "_".$fieldName;
-		if ($value != null)
-		{
-			if (property_exists(get_class($this), $varName))
-			{
-				$this->$varName = $value;
-				$class = get_class($this);
-				$table = strtolower($class);
-				$id = "_id".$fieldName;
-				if (isset($value->$id))
-				{
-					$st = db()->prepare("update $table set id$table=:id");
-					$id = substr($id, 1);
-					$st->binValue(":val", $value);
-				}
-				else
-				{
-					$st = db()->prepare("update $table set $fieldName=:val where id$table=:id");
-					$st->binValue(":val", $value);
-				}
-				$id = "id".$table;
-				$st->binValue(":id", $this->$id);
-				$st->execute();
-			}
-			else
-			{
-				throw new Exception("Unknow variable: ".$fieldName);
-			}
-		}
-	}
+	
 	public function __toString()
 	{
 		return get_class($this).": ".$this->name;

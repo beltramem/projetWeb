@@ -24,7 +24,9 @@ function invitationScript(game,player){
 	{
 			if(request.readyState===4)
 			{
-				// document.location.reload(true);
+				var invitation = document.getElementById("invitationResponse")
+				// console.log(invitation.innerHTML);
+				invitation.innerHTML = request.responseText
 			}
 	}
 	request.open('GET', "?page=site/getInvitation", true)
@@ -35,7 +37,7 @@ function chroneScript()
 {
 
 	invitationScript();
-	setTimeout(chroneScript,2000);
+	setTimeout(chroneScript,5000);
 	
 }
 chroneScript();

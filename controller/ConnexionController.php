@@ -25,7 +25,7 @@ class ConnexionController extends Controller
 			if($player!=null)
 			{
 				$md5Pass = md5($_POST["pass"]);
-				if($md5Pass == $player["mdp"])
+				if($md5Pass == $player[0]["mdp"])
 				{
 					$_SESSION["pseudo"]=$_POST["pseudo"];
 					header("Location: .");

@@ -10,8 +10,7 @@ class SiteController extends Controller
 	{
 		$model = new model;
 		$data["invitations"] = $model->findBy("invitation","recipient",$_SESSION["pseudo"]);
-		var_dump($data);
-		$this->render("invitations",$data);
+		$this->viewer("invitations",$data);
 	}
 
 	public function index() 

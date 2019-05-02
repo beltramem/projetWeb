@@ -9,6 +9,15 @@ class GameRoomController extends Controller
 	{
 	}
 	
+	public function joinGame()
+	{
+		$game = parameters()["game"];
+		$player = parameters()["player"];
+		$model = new GameRoomModel();
+		$model->joinGame($game,$player);
+		header("Location: ?page=gameRoom&game=".$game);
+	}
+	
 	public function ivitPlayer()
 	{
 		$game = parameters()["game"];
@@ -29,7 +38,7 @@ class GameRoomController extends Controller
 		}
 		else
 		{
-			
+			$model->leave($game, $player);
 		}
 		header("Location:.");
 	}
