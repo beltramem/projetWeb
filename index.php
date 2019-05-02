@@ -5,4 +5,5 @@ ini_set('display_errors', true);
 include_once "db.php";
 include_once "tools.php";
 session_start();
+include_once "controller/inGameCheck.php";
 include_once "controller/route.php";
