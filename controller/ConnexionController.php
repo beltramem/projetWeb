@@ -20,8 +20,8 @@ class ConnexionController extends Controller
 		if(!empty($_POST["pseudo"]) && !empty($_POST["pass"]))
 		{
 			
-			$player = $model->findBy("player","pseudo","'".$_POST["pseudo"]);
-			var_dump($player);
+			$player = $model->findBy("player","pseudo","'".$_POST["pseudo"]."'");
+			// var_dump($player);
 			if($player!=null)
 			{
 				$md5Pass = md5($_POST["pass"]);

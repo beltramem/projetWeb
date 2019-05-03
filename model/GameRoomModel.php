@@ -6,7 +6,7 @@ class GameRoomModel extends Model
 	function invitPlayer($game,$player)
 	{
 		$query="call add_invitation('".$_SESSION["pseudo"]."','".$player."',".$game.")";
-		// var_dump($query);
+		var_dump($query);
 		$st = db()->prepare($query);
 		$st->execute();
 	}
@@ -14,6 +14,7 @@ class GameRoomModel extends Model
 	function joinGame($game,$player)
 	{
 		$query="call join_game(".$game.",'".$player."')";
+		var_dump($query);
 		$st = db()->prepare($query);
 		$st->execute();
 	}
