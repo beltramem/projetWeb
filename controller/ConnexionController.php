@@ -20,29 +20,31 @@ class ConnexionController extends Controller
 		if(!empty($_POST["pseudo"]) && !empty($_POST["pass"]))
 		{
 			
-			$player = $model->findBy("player","pseudo",$_POST["pseudo"]);
-			// var_dump($_POST["pseudo"]);
+			$player = $model->findBy("player","pseudo","'".$_POST["pseudo"]);
+			var_dump($player);
 			if($player!=null)
 			{
 				$md5Pass = md5($_POST["pass"]);
 				if($md5Pass == $player[0]["mdp"])
 				{
+					var_dump("bite");
 					$_SESSION["pseudo"]=$_POST["pseudo"];
 					header("Location: .");
 				}
+				else
+				{
+					$this->render("index");			
+				}
+			}
 			else
 			{
-				$this->render("index");			}
-		}
-		else
-		{
-			$this->render("index");
-		 }
+				$this->render("index");
+			}
 	}
 		else
 		{
 			$this->render("index");
-		 }
+		}
 	}
 
 	public function about()

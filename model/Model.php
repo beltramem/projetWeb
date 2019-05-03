@@ -55,7 +55,7 @@ class Model
 	public static function findBy($table,$field,$value)
 	{
 		$query = "select * from ".$table." where ".$field."=".$value."";
-		// var_dump($query);
+		// 	var_dump($query);
 		$st = db()->prepare($query);
 		$st->execute();
 		$list = array();

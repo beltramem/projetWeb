@@ -29,6 +29,15 @@ function fireScript(game,player){
 			{
 				var player_section = document.getElementById("player_section");
 				player_section.innerHTML = request.responseText
+					var fireButton = document.getElementsByClassName("fire")
+					for (var i=0;i<fireButton.length;i++)
+					{
+						fireButton[i].onclick = function()
+						{
+							var player = this.id
+							fireScript(game,player)
+						}
+					}
 			}
 	}
 	request.open('GET', "?page=gameRoom/fire/&game="+game+"&player="+player, true)
@@ -52,6 +61,15 @@ function reloadplayer(game)
 			{
 				var player_section = document.getElementById("player_section");
 				player_section.innerHTML = request.responseText
+				var invitButton = document.getElementsByClassName("invitation")
+				for (var i=0;i<invitButton.length;i++)
+				{
+					invitButton[i].onclick = function()
+					{
+						var player = this.id
+						inviteScript(game,player)
+					}
+				}
 			}
 	}
 	request.open('GET', "?page=gameRoom/getPlayerView/&game="+game, true)
@@ -87,26 +105,10 @@ function init()
 			inviteScript(idGame,player)
 		}
 	
-	var invitButton = document.getElementsByClassName("invitation")
-	for (var i=0;i<invitButton.length;i++)
-	{
-		invitButton[i].onclick = function()
-		{
-			var player = this.id
-			inviteScript(idGame,player)
-		}
-	}
+
 	
 	// console.log(fireButton[0]);
-	var fireButton = document.getElementsByClassName("fire")
-	for (var i=0;i<fireButton.length;i++)
-	{
-		fireButton[i].onclick = function()
-		{
-			var player = this.id
-			fireScript(idGame,player)
-		}
-	}
+
 	chroneScript()
 }
 
