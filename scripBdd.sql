@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.6.4
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 02 mai 2019 à 21:54
--- Version du serveur :  5.7.19
--- Version de PHP :  7.1.9
+-- Client :  127.0.0.1
+-- Généré le :  Ven 03 Mai 2019 à 16:35
+-- Version du serveur :  5.7.14
+-- Version de PHP :  5.6.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -26,105 +24,83 @@ DELIMITER $$
 --
 -- Procédures
 --
-DROP PROCEDURE IF EXISTS `add_game`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_game` (IN `p_private` TINYINT(1), IN `p_nbPlayer` INT, IN `p_duration` INT, IN `p_owner` VARCHAR(30))  BEGIN 
+CREATE  PROCEDURE `add_game` (IN `p_private` TINYINT(1), IN `p_nbPlayer` INT, IN `p_duration` INT, IN `p_owner` VARCHAR(30))  BEGIN 
 	INSERT into game (private,nbPlayer,duration,state,owner) VALUES (p_private,p_nbPlayer,p_duration,"create",p_owner);
     SELECT LAST_INSERT_ID();
 END$$
 
-DROP PROCEDURE IF EXISTS `add_ground`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_ground` (IN `p_placex` INT, IN `p_placey` INT, IN `p_map` INT)  NO SQL
+CREATE PROCEDURE `add_ground` (IN `p_placex` INT, IN `p_placey` INT, IN `p_map` INT)  NO SQL
 BEGIN
 	insert into square(placex,placey,val,map) VALUES (p_placex,p-placey,0,p_map);
 END$$
 
-DROP PROCEDURE IF EXISTS `add_invitation`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_invitation` (IN `p_author` VARCHAR(30), IN `p_recipient` VARCHAR(30), IN `p_game` INT)  BEGIN
+CREATE  PROCEDURE `add_invitation` (IN `p_author` VARCHAR(30), IN `p_recipient` VARCHAR(30), IN `p_game` INT)  BEGIN
 	INSERT INTO invitation (author,recipient,game) VALUES ( p_author, p_recipient, p_game);
 END$$
 
-DROP PROCEDURE IF EXISTS `add_map`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_map` (IN `p_game` INT, IN `p_nbx` INT, IN `p_nby` INT)  NO SQL
+CREATE PROCEDURE `add_map` (IN `p_game` INT, IN `p_nbx` INT, IN `p_nby` INT)  NO SQL
 BEGIN
 
 INSERT into map(game,nbx,nby) values (p_game,p_nbx,p_nby);
 END$$
 
-DROP PROCEDURE IF EXISTS `add_ownerStat`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_ownerStat` (IN `p_pseudo` VARCHAR(30), IN `p_game` INT)  NO SQL
+CREATE PROCEDURE `add_ownerStat` (IN `p_pseudo` VARCHAR(30), IN `p_game` INT)  NO SQL
 BEGIN
 
 INSERT into playerstat(id,player,game) VALUES (11,p_pseudo,p_game);
 
 END$$
 
-DROP PROCEDURE IF EXISTS `add_player`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_player` (IN `p_pseudo` VARCHAR(30), IN `p_mail` VARCHAR(150), IN `p_mdp` VARCHAR(150))  BEGIN
+CREATE PROCEDURE `add_player` (IN `p_pseudo` VARCHAR(30), IN `p_mail` VARCHAR(150), IN `p_mdp` VARCHAR(150))  BEGIN
 	INSERT INTO player (pseudo,mail,mdp,admin,inspectate) VALUES (p_pseudo,p_mail,p_mdp,0,null);
 END$$
 
-DROP PROCEDURE IF EXISTS `add_square`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_square` (IN `p_placex` INT, IN `p_placey` INT, IN `p_map` INT, IN `p_val` INT)  NO SQL
+CREATE PROCEDURE `add_square` (IN `p_placex` INT, IN `p_placey` INT, IN `p_map` INT, IN `p_val` INT)  NO SQL
 BEGIN
 	insert into square(placex,placey,val,map) VALUES (p_placex,p_placey,p_val,p_map);
 END$$
 
-DROP PROCEDURE IF EXISTS `fireGame`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `fireGame` (IN `p_game` INT, IN `p_pseudo` VARCHAR(30))  NO SQL
+CREATE PROCEDURE `fireGame` (IN `p_game` INT, IN `p_pseudo` VARCHAR(30))  NO SQL
 BEGIN
 
 DELETE FROM playerstat where game=p_game and player=p_pseudo;
 
 END$$
 
-DROP PROCEDURE IF EXISTS `get_friend`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_friend` (IN `p_pseudo` VARCHAR(30))  NO SQL
+CREATE PROCEDURE `get_friend` (IN `p_pseudo` VARCHAR(30))  NO SQL
 BEGIN
 
 SELECT * from friend where friendOne=p_pseudo or friendTwo=p_pseudo;
 
 END$$
 
-DROP PROCEDURE IF EXISTS `get_nb_player`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_nb_player` (IN `p_game` INT)  NO SQL
+CREATE PROCEDURE `get_nb_player` (IN `p_game` INT)  NO SQL
 BEGIN
 
 SELECT nbPlayer from game where id=p_game;
 
 END$$
 
-DROP PROCEDURE IF EXISTS `get_owner`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_owner` (IN `p_game` INT)  NO SQL
+CREATE PROCEDURE `get_owner` (IN `p_game` INT)  NO SQL
 BEGIN
 
 SELECT Owner from game where id=p_game;
 
 END$$
 
-DROP PROCEDURE IF EXISTS `get_playerName_game`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_playerName_game` (IN `p_game` INT)  NO SQL
+CREATE PROCEDURE `get_playerName_game` (IN `p_game` INT)  NO SQL
 BEGIN
 	SELECT player from playerstat where game=p_game;
 END$$
 
-DROP PROCEDURE IF EXISTS `join_game`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `join_game` (IN `p_game` INT, IN `p_pseudo` VARCHAR(30))  BEGIN
+CREATE PROCEDURE `join_game` (IN `p_game` INT, IN `p_pseudo` VARCHAR(30))  BEGIN
 	DECLARE last_id int;
     SELECT max(id) into last_id from playerstat where game=p_game;
 	INSERT into playerstat(id,player,game) VALUES(last_id+1,p_pseudo,p_game);
     DELETE from invitation where recipient=p_pseudo and game=p_game;
 END$$
 
-DROP PROCEDURE IF EXISTS `leave`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `leave` (IN `p_player` VARCHAR(30))  NO SQL
-BEGIN
-
-DELETE from playerstat where player = p_player;
-
-END$$
-
-DROP PROCEDURE IF EXISTS `owner_leave`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `owner_leave` (IN `p_game` INT, IN `p_pseudo` VARCHAR(30))  NO SQL
+CREATE PROCEDURE `owner_leave` (IN `p_game` INT, IN `p_pseudo` VARCHAR(30))  NO SQL
 BEGIN
 
 DELETE from square where map=p_game;
@@ -135,8 +111,14 @@ DELETE FROM game where id = p_game;
 
 END$$
 
-DROP PROCEDURE IF EXISTS `spectate_game`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spectate_game` (IN `p_spectator` INT, IN `p_pseudo` VARCHAR(30))  BEGIN
+CREATE PROCEDURE `player_leave` (IN `p_player` VARCHAR(30))  NO SQL
+BEGIN
+
+DELETE from playerstat where player = p_player;
+
+END$$
+
+CREATE PROCEDURE `spectate_game` (IN `p_spectator` INT, IN `p_pseudo` VARCHAR(30))  BEGIN
 	UPDATE player
     	SET spectator = p_spectator
     where pseudo = p_pseudo;
@@ -150,16 +132,13 @@ DELIMITER ;
 -- Structure de la table `friend`
 --
 
-DROP TABLE IF EXISTS `friend`;
-CREATE TABLE IF NOT EXISTS `friend` (
+CREATE TABLE `friend` (
   `friendOne` varchar(30) NOT NULL,
-  `friendTwo` varchar(30) NOT NULL,
-  PRIMARY KEY (`friendOne`,`friendTwo`),
-  KEY `friendTwo` (`friendTwo`)
+  `friendTwo` varchar(30) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `friend`
+-- Contenu de la table `friend`
 --
 
 INSERT INTO `friend` (`friendOne`, `friendTwo`) VALUES
@@ -171,20 +150,17 @@ INSERT INTO `friend` (`friendOne`, `friendTwo`) VALUES
 -- Structure de la table `game`
 --
 
-DROP TABLE IF EXISTS `game`;
-CREATE TABLE IF NOT EXISTS `game` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `game` (
+  `id` int(11) NOT NULL,
   `nbPlayer` int(11) DEFAULT NULL,
   `duration` int(11) DEFAULT NULL,
   `private` tinyint(1) DEFAULT NULL,
   `state` varchar(30) DEFAULT NULL,
-  `owner` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `owner` (`owner`)
-) ENGINE=MyISAM AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
+  `owner` varchar(30) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `game`
+-- Contenu de la table `game`
 --
 
 INSERT INTO `game` (`id`, `nbPlayer`, `duration`, `private`, `state`, `owner`) VALUES
@@ -212,27 +188,19 @@ INSERT INTO `game` (`id`, `nbPlayer`, `duration`, `private`, `state`, `owner`) V
 -- Structure de la table `invitation`
 --
 
-DROP TABLE IF EXISTS `invitation`;
-CREATE TABLE IF NOT EXISTS `invitation` (
+CREATE TABLE `invitation` (
   `game` int(11) NOT NULL,
   `author` varchar(30) NOT NULL,
-  `recipient` varchar(30) NOT NULL,
-  PRIMARY KEY (`game`,`author`,`recipient`),
-  KEY `author` (`author`),
-  KEY `recipient` (`recipient`),
-  KEY `game` (`game`)
+  `recipient` varchar(30) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `invitation`
+-- Contenu de la table `invitation`
 --
 
 INSERT INTO `invitation` (`game`, `author`, `recipient`) VALUES
-(126, 'admin', 'admin2'),
 (137, 'admin', 'adm'),
-(137, 'admin', 'admin2'),
-(138, 'admin2', 'adm'),
-(139, 'admin2', 'admin');
+(138, 'admin2', 'adm');
 
 -- --------------------------------------------------------
 
@@ -240,16 +208,14 @@ INSERT INTO `invitation` (`game`, `author`, `recipient`) VALUES
 -- Structure de la table `map`
 --
 
-DROP TABLE IF EXISTS `map`;
-CREATE TABLE IF NOT EXISTS `map` (
+CREATE TABLE `map` (
   `game` int(11) NOT NULL,
   `nbx` int(11) NOT NULL,
-  `nby` int(11) NOT NULL,
-  PRIMARY KEY (`game`)
+  `nby` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `map`
+-- Contenu de la table `map`
 --
 
 INSERT INTO `map` (`game`, `nbx`, `nby`) VALUES
@@ -278,19 +244,16 @@ INSERT INTO `map` (`game`, `nbx`, `nby`) VALUES
 -- Structure de la table `player`
 --
 
-DROP TABLE IF EXISTS `player`;
-CREATE TABLE IF NOT EXISTS `player` (
+CREATE TABLE `player` (
   `pseudo` varchar(30) NOT NULL,
   `mail` varchar(150) NOT NULL,
   `admin` tinyint(1) NOT NULL,
   `inspectate` int(11) DEFAULT NULL,
-  `mdp` varchar(200) NOT NULL,
-  PRIMARY KEY (`pseudo`),
-  KEY `inspectate` (`inspectate`)
+  `mdp` varchar(200) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `player`
+-- Contenu de la table `player`
 --
 
 INSERT INTO `player` (`pseudo`, `mail`, `admin`, `inspectate`, `mdp`) VALUES
@@ -303,8 +266,7 @@ INSERT INTO `player` (`pseudo`, `mail`, `admin`, `inspectate`, `mdp`) VALUES
 -- Structure de la table `playerstat`
 --
 
-DROP TABLE IF EXISTS `playerstat`;
-CREATE TABLE IF NOT EXISTS `playerstat` (
+CREATE TABLE `playerstat` (
   `id` int(11) NOT NULL,
   `player` varchar(30) NOT NULL,
   `game` int(11) NOT NULL,
@@ -315,19 +277,15 @@ CREATE TABLE IF NOT EXISTS `playerstat` (
   `shield` tinyint(1) NOT NULL DEFAULT '0',
   `superView` tinyint(1) NOT NULL DEFAULT '0',
   `incognito` tinyint(1) DEFAULT NULL,
-  `team` enum('blaireau','keke',',') DEFAULT NULL,
-  PRIMARY KEY (`id`,`game`),
-  KEY `player` (`player`),
-  KEY `game` (`game`)
+  `team` enum('blaireau','keke',',') DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `playerstat`
+-- Contenu de la table `playerstat`
 --
 
 INSERT INTO `playerstat` (`id`, `player`, `game`, `posX`, `posY`, `invisible`, `boots`, `shield`, `superView`, `incognito`, `team`) VALUES
-(11, 'admin2', 139, 0, 0, 0, 0, 0, 0, 0, NULL),
-(12, 'admin', 139, 0, 0, 0, 0, 0, 0, NULL, NULL);
+(11, 'admin2', 139, 0, 0, 0, 0, 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -335,17 +293,15 @@ INSERT INTO `playerstat` (`id`, `player`, `game`, `posX`, `posY`, `invisible`, `
 -- Structure de la table `square`
 --
 
-DROP TABLE IF EXISTS `square`;
-CREATE TABLE IF NOT EXISTS `square` (
+CREATE TABLE `square` (
   `map` int(11) NOT NULL,
   `placeX` int(11) NOT NULL,
   `placeY` int(11) NOT NULL,
-  `val` float NOT NULL,
-  PRIMARY KEY (`map`,`placeX`,`placeY`)
+  `val` float NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `square`
+-- Contenu de la table `square`
 --
 
 INSERT INTO `square` (`map`, `placeX`, `placeY`, `val`) VALUES
@@ -18249,8 +18205,70 @@ INSERT INTO `square` (`map`, `placeX`, `placeY`, `val`) VALUES
 (139, 28, 31, 0),
 (139, 28, 32, 0),
 (139, 28, 33, 0);
-COMMIT;
 
+--
+-- Index pour les tables exportées
+--
+
+--
+-- Index pour la table `friend`
+--
+ALTER TABLE `friend`
+  ADD PRIMARY KEY (`friendOne`,`friendTwo`),
+  ADD KEY `friendTwo` (`friendTwo`);
+
+--
+-- Index pour la table `game`
+--
+ALTER TABLE `game`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `owner` (`owner`);
+
+--
+-- Index pour la table `invitation`
+--
+ALTER TABLE `invitation`
+  ADD PRIMARY KEY (`game`,`author`,`recipient`),
+  ADD KEY `author` (`author`),
+  ADD KEY `recipient` (`recipient`),
+  ADD KEY `game` (`game`);
+
+--
+-- Index pour la table `map`
+--
+ALTER TABLE `map`
+  ADD PRIMARY KEY (`game`);
+
+--
+-- Index pour la table `player`
+--
+ALTER TABLE `player`
+  ADD PRIMARY KEY (`pseudo`),
+  ADD KEY `inspectate` (`inspectate`);
+
+--
+-- Index pour la table `playerstat`
+--
+ALTER TABLE `playerstat`
+  ADD PRIMARY KEY (`id`,`game`),
+  ADD KEY `player` (`player`),
+  ADD KEY `game` (`game`);
+
+--
+-- Index pour la table `square`
+--
+ALTER TABLE `square`
+  ADD PRIMARY KEY (`map`,`placeX`,`placeY`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `game`
+--
+ALTER TABLE `game`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
