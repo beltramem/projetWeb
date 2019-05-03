@@ -61,7 +61,6 @@ class GameRoomController extends Controller
 		$pseudo=parameters()["player"];
 		$model = new GameRoomModel();
 		$model->fire($game,$pseudo);
-		$this->index();
 	}
 	
 	public function getPlayerdata($data)
