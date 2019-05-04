@@ -59,7 +59,7 @@ class PlayerStatController extends Controller
 	{
 		$game=parameters()["game"];
 		$pseudo=parameters()["player"];
-		$model = new playerStatModel();
+		$model = new PlayerStatModel();
 		$model->fire($game,$pseudo);
 	}
 	

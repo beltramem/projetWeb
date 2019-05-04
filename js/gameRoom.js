@@ -20,9 +20,6 @@ function createXHR ( ) {
 		return resultat ;
 }
 
-function addOnclick()
-{
-}
 
 function fireScript(game,player){
 	var request = createXHR()
@@ -73,7 +70,7 @@ function reloadplayer(game)
 function reloadfriend(game)
 {
 
-		var request = createXHR()
+	var request = createXHR()
 	request.onreadystatechange = function()
 	{
 			if(request.readyState===4)

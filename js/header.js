@@ -40,7 +40,7 @@ function inviteRequestScript(invitName)
 	request.onreadystatechange = function()
 	{
 	}
-	request.open('GET', "?page=Friendrequest/addFriendRequest/&recipient="+invitName, true)
+	request.open('GET', "?page=FriendRequest/addFriendRequest/&recipient="+invitName, true)
 	request.send()
 }
 

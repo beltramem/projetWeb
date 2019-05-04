@@ -10,7 +10,7 @@
 	<div class="retractable-menu">
 		
 		<ul>
-			<li id="pseudo"><a><?= $_SESSION["pseudo"] ?></a></li>
+			<li id="pseudo"><?= $_SESSION["pseudo"] ?></li>
 			<li class="deco"><a href="?page=player/disconnect">déconnexion</a></li> 
 			<li class="mode-menu"><a href="">Jour</a><a href="">nuit</a><a href="">noir</a></li> 
 			<li class="account-menu"><a href="">Mon compte</a></li>

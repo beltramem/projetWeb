@@ -16,8 +16,8 @@ class FriendrequestController extends Controller
 
 	function getFriendRequestData()
 	{
-		$model = new model();
-		$data["friendRequest"] = $model->findBy("friendRequest","playerTwo","'".$_SESSION["pseudo"]."'");
+		$model = new Model();
+		$data["friendRequest"] = $model->findBy("friendrequest","playerTwo","'".$_SESSION["pseudo"]."'");
 		return $data;
 	}
 	

@@ -80,7 +80,6 @@ class PlayerStatModel extends Model
 	function getPlayer($idGame)
 	{
 		$query = "call get_playerName_game(".$idGame.")";
-		// echo $query;
 		$st = db()->prepare($query);
 		$st->execute();
 		while($row = $st->fetch(PDO::FETCH_ASSOC))

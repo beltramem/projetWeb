@@ -625,7 +625,33 @@ class GameController extends Controller
 		
 		return $map;
 	}
+	
+	public function GetUnstartGameData()
+	{
+		$model = new GameModel();
+		$data["game"]= $model->GetUnstartGame();
+		return $data;
+	}
+	
+	public function GetUnstartGameView()
+	{
+		$data = $this->GetUnstartGameData();
+		$this->viewer("unstartGame",$data);
+	}
 
+	public function GetSpectateGameData()
+	{
+		$model = new GameModel();
+		$data["game"]= $model->GetSpectateGame();
+		return $data;
+	}
+	
+	public function GetSpectateGameView()
+	{
+		$data = $this->GetSpectateGameData();
+		$this->viewer("spectateGame",$data);
+	}
+	
 	public function index() 
 	{
 		

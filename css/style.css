@@ -67,18 +67,22 @@ h1
 	list-style : none;
 }
 
-.retractable-menu li a 
+.retractable-menu li
 {
 	padding-right :10px;
 	text-align : center;
 	color : white;
 	font-size : 1.5em;
-}
-
-.retractable-menu li 
-{
 	padding-bottom :30px;
 	text-align : center;
+}
+
+
+
+.retractable-menu li a
+{
+	color : white;
+	padding-right :10px;
 }
 
 #invitationResponse

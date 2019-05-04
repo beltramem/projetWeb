@@ -37,7 +37,7 @@
 	</p>	
 	</form>
 	<button type="submit" form="form1" name="submit" value="Submit">Créer la partie</button>
-	<a href="?page=gameSelect"><button>retour</button>	</a>
+	<a href="?page=playerStat"><button>retour</button>	</a>
 	
 	</section>
 </body>

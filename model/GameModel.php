@@ -58,6 +58,35 @@ class GameModel extends Model
 		db()->exec($query) or die("c'est pété");
 	}
 	
+	function GetUnstartGame()
+	{
+		$query = "call get_unstart_game()";
+		// echo $query;
+		$st = db()->prepare($query);
+		$st->execute();
+		$data = array();
+		while($row = $st->fetch(PDO::FETCH_ASSOC))
+		{
+			$data[] = $row;
+		}
+			 
+		return $data;
+	}
+	
+	function GetSpectateGame()
+	{
+		$query = "call get_spectate_game()";
+		$st = db()->prepare($query);
+		$st->execute();
+		$data = array();
+		while($row = $st->fetch(PDO::FETCH_ASSOC))
+		{
+			$data[] = $row;
+		}
+			 
+		return $data;
+	}
+	
 	function addPositionBlaireau($positX,$positY){
 		
 		$players= db()->prepare('SELECT * FROM playerstat WHERE team=0  ORDER BY RAND() LIMIT 1');
