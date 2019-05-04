@@ -1,6 +1,6 @@
 <?php
 
-require("model/invitationModel.php");
+require("model/InvitationModel.php");
 
 class PlayerStatController extends Controller 
 {
@@ -13,7 +13,7 @@ class PlayerStatController extends Controller
 	{
 		$game = parameters()["game"];
 		$player = parameters()["player"];
-		$model = new playerStatModel();
+		$model = new PlayerStatModel();
 		$model->joinGame($game,$player);
 		header("Location: ?page=playerStat/gameRoom/&game=".$game);
 	}
@@ -22,13 +22,13 @@ class PlayerStatController extends Controller
 	{
 		$game = parameters()["game"];
 		$player = parameters()["player"];
-		$model = new invitationModel();
+		$model = new InvitationModel();
 		$model->invitPlayer($game,$player);
 	}
 
 	public function leave()
 	{
-		$model = new playerStatModel();
+		$model = new PlayerStatModel();
 		$owner = $this->getOwner();
 		$player = $_SESSION["pseudo"];
 		$game = parameters()["game"];
@@ -65,7 +65,7 @@ class PlayerStatController extends Controller
 	
 	public function getPlayerdata($data)
 	{
-		$model = new playerStatModel();
+		$model = new PlayerStatModel();
 		$idGame = parameters()["game"];
 		// echo $idGame;
 		$data["players"] = $model->getPlayer($idGame);
@@ -89,7 +89,7 @@ class PlayerStatController extends Controller
 	
 	public function getFriendData($data)
 	{
-		$model = new playerStatModel();
+		$model = new PlayerStatModel();
 		$friends = $model->getFriend();
 		$data["friends"]= $friends;
 		foreach ($friends as $friend)

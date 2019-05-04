@@ -646,7 +646,7 @@ class GameController extends Controller
 			// var_dump($map);
 			$model->stock_map($map,$gameId[0]);
 			$model->add_owner($gameId[0]);
-			header("Location: ?page=playerstat/gameRoom/&game=".$gameId[0]);
+			header("Location: ?page=playerStat/gameRoom/&game=".$gameId[0]);
 		}
 		else
 		{

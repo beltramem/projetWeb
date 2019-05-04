@@ -8,7 +8,7 @@ class SiteController extends Controller
 	
 	public function getInvitation()
 	{
-		$model = new model;
+		$model = new Model;
 		$data["invitations"] = $model->findBy("invitation","recipient","'".$_SESSION["pseudo"]."'");
 		$this->viewer("invitations",$data);
 	}
