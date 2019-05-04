@@ -40,7 +40,7 @@ function addLights() {
 }
 
 function plateau() {
-  var texture = new THREE.TextureLoader().load('sol.jpg');
+  var texture = new THREE.TextureLoader().load('texture/sol.jpg');
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set( 4, 4 );
@@ -87,17 +87,17 @@ function creationMur() {
     [0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, ]
   ];
 
-  // detail du mur
-  var texture = new THREE.TextureLoader().load('bibliotheque.jpg');
-  var geometryCube = new THREE.BoxGeometry(1, 1 ,1);
-  //couleur bleue
+  // detail du mur*******************
+  var texture = new THREE.TextureLoader().load('texture/bibliotheque.jpg');
+  var geometryCube = new THREE.BoxGeometry(1, 1 );
   var materialMur = new THREE.MeshPhongMaterial({ map :texture});
+  //Test bonus*****************
   var materialVue = new THREE.MeshBasicMaterial({ color : 0xffff00});
   var materialInconnu = new THREE.MeshBasicMaterial({ color : 0xff0000});
-  //on parcourt la map
-  for (var i = 0; i <  map.length; i++) { // parcours de haut en bas
-    for (var j = 0; j < map[i].length; j++) { // parcours de gauche a droite
-      // si on a 1 dans la map on ajoute le cube
+  //*********************
+  //on parcourt la map et on place tous les éléments
+  for (var i = 0; i <  map.length; i++) { // parcourt de haut en bas
+    for (var j = 0; j < map[i].length; j++) { // parcourt de gauche a droite
       if (map[i][j] == 1) {
         var cube = new THREE.Mesh(geometryCube, materialMur);
         cube.position.set(j,0,i);
@@ -122,6 +122,8 @@ function creationMur() {
     }
   }
 }
+
+
 function joueurSpawn(a, b ,c) {
     var geometry = new THREE.BoxGeometry( 1, 1 ); //(largeur,hauteur)
     var material = new THREE.MeshPhongMaterial({ color: joueurCouleur, });
@@ -157,10 +159,6 @@ function onWindowResize() {
 function render() {
     renderer.render(scene, cameraJoueur);
 }
-/*
-pour pouvoir avancer on a besoin d'extraire des 
-axes de la matrice de transformation locale
-*/
 
 function animate() {
     requestAnimationFrame(animate);
@@ -180,7 +178,6 @@ function animate() {
          joueur.position.add(at.multiplyScalar(-vitesseJoueur));
          joueur.matrix.extractBasis(right,up,at);
          */
-         //var vue = false
         if((direction == 1)) // haut
         {
           if(superV==true)
@@ -189,7 +186,6 @@ function animate() {
           }
           if(map[x-(JoueurHitBox+murHitBox)][y] != 1)
           {
-            //joueur.position.z = avance(joueur.position.z);
             joueur.position.z -= 1;
             if(map[x-(JoueurHitBox+murHitBox)][y] == 6)
             {
@@ -258,6 +254,7 @@ function animate() {
               if(direction == 4)
                 joueur.position.x += vitesseJoueur;
       }
+
       if(keybord[37] ) {//gauche
         joueur.rotation.y += 90 * Math.PI / 180;
         keybord[37]=false;
@@ -265,8 +262,8 @@ function animate() {
         direction = 4;
         else
           direction --;
-
       }
+
       if(keybord[39]){//droite
         joueur.rotation.y -= 90 * Math.PI / 180 ;
         keybord[39]=false;
@@ -275,7 +272,7 @@ function animate() {
         else
           direction ++;
       }
-    
+      
     render();
 }
 
