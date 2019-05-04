@@ -1,15 +1,19 @@
 <?php
 
-class GameRoomModel extends Model
+class PlayerStatModel extends Model
 {
-	
-	function invitPlayer($game,$player)
-	{
-		$query="call add_invitation('".$_SESSION["pseudo"]."','".$player."',".$game.")";
-		var_dump($query);
-		$st = db()->prepare($query);
-		$st->execute();
-	}
+	private $id;
+	private $player;
+	private $game;
+	private $posX;
+	private $posY;
+	private $invisible;
+	private $boots;
+	private $shield;
+	private $superView;
+	private $incognito;
+	private $team;
+
 	
 	function joinGame($game,$player)
 	{
@@ -26,15 +30,6 @@ class GameRoomModel extends Model
 		$st->execute();
 	}
 	
-	function getOwner($game)
-	{
-		$query = "call get_owner(".$game.")";
-		$st = db()->prepare($query);
-		$st->execute();
-		$owner = $st->fetch();
-		// var_dump($query);
-		return $owner;
-	}
 	
 	function ownerLeave($game,$player)
 	{

@@ -12,6 +12,12 @@ class SiteController extends Controller
 		$data["invitations"] = $model->findBy("invitation","recipient","'".$_SESSION["pseudo"]."'");
 		$this->viewer("invitations",$data);
 	}
+	
+	public function setFriendRequest()
+	{
+		$model = new model;
+		// $model->
+	}
 
 	public function index() 
 	{

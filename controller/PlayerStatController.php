@@ -1,8 +1,8 @@
 <?php
 
-require("model/GameRoomModel.php");
+require("model/invitationModel.php");
 
-class GameRoomController extends Controller 
+class PlayerStatController extends Controller 
 {
 	
 	public function __construct() 
@@ -13,22 +13,22 @@ class GameRoomController extends Controller
 	{
 		$game = parameters()["game"];
 		$player = parameters()["player"];
-		$model = new GameRoomModel();
+		$model = new playerStatModel();
 		$model->joinGame($game,$player);
-		header("Location: ?page=gameRoom&game=".$game);
+		header("Location: ?page=playerStat/gameRoom/&game=".$game);
 	}
 	
 	public function ivitPlayer()
 	{
 		$game = parameters()["game"];
 		$player = parameters()["player"];
-		$model = new GameRoomModel();
+		$model = new invitationModel();
 		$model->invitPlayer($game,$player);
 	}
 
 	public function leave()
 	{
-		$model = new GameRoomModel();
+		$model = new playerStatModel();
 		$owner = $this->getOwner();
 		$player = $_SESSION["pseudo"];
 		$game = parameters()["game"];
@@ -50,7 +50,7 @@ class GameRoomController extends Controller
 	
 	public function getOwner()
 	{
-		$model = new GameRoomModel();
+		$model = new GameModel();
 		$owner = $model->getOwner(parameters()["game"]);
 		return $owner;
 	}
@@ -59,13 +59,13 @@ class GameRoomController extends Controller
 	{
 		$game=parameters()["game"];
 		$pseudo=parameters()["player"];
-		$model = new GameRoomModel();
+		$model = new playerStatModel();
 		$model->fire($game,$pseudo);
 	}
 	
 	public function getPlayerdata($data)
 	{
-		$model = new GameRoomModel();
+		$model = new playerStatModel();
 		$idGame = parameters()["game"];
 		// echo $idGame;
 		$data["players"] = $model->getPlayer($idGame);
@@ -89,7 +89,7 @@ class GameRoomController extends Controller
 	
 	public function getFriendData($data)
 	{
-		$model = new GameRoomModel();
+		$model = new playerStatModel();
 		$friends = $model->getFriend();
 		$data["friends"]= $friends;
 		foreach ($friends as $friend)
@@ -124,7 +124,12 @@ class GameRoomController extends Controller
 		$this->viewer("friend",$data);
 	}
 	
-	public function index() 
+	public function index()
+	{
+		$this->render("index");
+	}
+	
+	public function gameRoom() 
 	{
 		$data = array();
 		$data = $this->getPlayerData($data);
@@ -136,7 +141,7 @@ class GameRoomController extends Controller
 		{
 			$data["startOk"]=true;
 		}
-		$this->render("index",$data);
+		$this->render("gameRoom",$data);
 	}
 
 	public function about()

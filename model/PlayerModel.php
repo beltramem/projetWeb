@@ -1,8 +1,14 @@
 <?php
 
-class AccountCreateModel extends Model
+class PlayerModel extends Model
 {
- 
+	private $pseudo;
+	private $mail;
+	private $admin;
+	private $inspectate;
+	private $mdp;
+	
+  
 	function addAccount()
 	{
 		if(isset($_POST['pseudo']) && isset($_POST['mail']) && isset($_POST['pass']))
@@ -12,6 +18,11 @@ class AccountCreateModel extends Model
 			db()->exec($query) or die ("c'est pété");
 			
 		}
+	}
+	
+	function connexion()
+	{
+		
 	}
 
 }

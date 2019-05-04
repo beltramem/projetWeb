@@ -52,6 +52,7 @@ class Model
 		return $list;
 	}
 	
+	
 	public static function findBy($table,$field,$value)
 	{
 		$query = "select * from ".$table." where ".$field."=".$value."";

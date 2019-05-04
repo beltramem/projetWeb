@@ -1,8 +1,43 @@
 <?php
 
-class GameCreateModel extends Model
+class GameModel extends Model
 {
+	private $id;
+	private $nbPlayer;
+	private $duration;
+	private $private;
+	private $state;
+	private $owner;
 	
+	function stock_map($map,$id)
+	{
+		$xSize = count($map);
+		$ySize = count($map[0]);
+		
+		// echo $xSize;
+		// echo $ySize;
+		$query = "call add_map(".$id.",".$xSize.",".$ySize.")";
+		db()->exec($query);
+		for($x=0;$x<$xSize;$x++)
+		{
+			for($y=0;$y<$ySize;$y++)
+			{
+				$query = "call add_square(".$x.",".$y.",".$id.",".$map[$x][$y].")";
+				db()->exec($query);
+			}
+		}
+	}
+	
+	
+	function getOwner($game)
+	{
+		$query = "call get_owner(".$game.")";
+		$st = db()->prepare($query);
+		$st->execute();
+		$owner = $st->fetch();
+		// var_dump($query);
+		return $owner;
+	}
 	
 	function add_game($duration,$private)
 	{
@@ -23,24 +58,6 @@ class GameCreateModel extends Model
 		db()->exec($query) or die("c'est pété");
 	}
 	
-	function stock_map($map,$id)
-	{
-		$xSize = count($map);
-		$ySize = count($map[0]);
-		
-		// echo $xSize;
-		// echo $ySize;
-		$query = "call add_map(".$id.",".$xSize.",".$ySize.")";
-		db()->exec($query);
-		for($x=0;$x<$xSize-1;$x++)
-		{
-			for($y=0;$y<$ySize-1;$y++)
-			{
-				$query = "call add_square(".$x.",".$y.",".$id.",".$map[$x][$y].")";
-				db()->exec($query);
-			}
-		}
-	}
 	function addPositionBlaireau($positX,$positY){
 		
 		$players= db()->prepare('SELECT * FROM playerstat WHERE team=0  ORDER BY RAND() LIMIT 1');

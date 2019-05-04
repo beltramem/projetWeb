@@ -1,8 +1,8 @@
 <?php
 
-require("model/GameCreateModel.php");
+// require("model/GameCreateModel.php");
 
-class GameCreateController extends Controller 
+class GameController extends Controller 
 {
 	public function __construct() 
 	{
@@ -25,7 +25,7 @@ class GameCreateController extends Controller
 	// }
 	//gentils 8 - méchants 9
 	public function PlayerInitPos($xSize,$ySize,$map){
-		$gc=new GameCreateModel();
+		$gc=new GameModel();
 		//positionner les blaireaux
 		//ici, 1/3 des joueurs sont des blaireaux
 		//on place les blaireaux aléatoirement sur la carte
@@ -570,7 +570,7 @@ class GameCreateController extends Controller
 	
 	public function create_map()
 	{
-		$model = new GameCreateModel;
+		$model = new GameModel;
 		
 		
 		$xSize = 30;
@@ -640,13 +640,13 @@ class GameCreateController extends Controller
 			{
 				$private = 0;
 			}	
-			$model = new GameCreateModel();
+			$model = new GameModel();
 			$gameId = $model->add_game($duration,$private);
 			$map = $this->create_map();
 			// var_dump($map);
 			$model->stock_map($map,$gameId[0]);
 			$model->add_owner($gameId[0]);
-			header("Location: ?page=gameRoom&game=".$gameId[0]);
+			header("Location: ?page=playerstat/gameRoom/&game=".$gameId[0]);
 		}
 		else
 		{

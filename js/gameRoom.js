@@ -34,13 +34,13 @@ function fireScript(game,player){
 				player_section.innerHTML = request.responseText
 			}
 	}
-	request.open('GET', "?page=gameRoom/fire/&game="+game+"&player="+player, true)
+	request.open('GET', "?page=playerStat/fire/&game="+game+"&player="+player, true)
 	request.send()
 } 
 
 function inviteScript(game,player){
 	var request = createXHR()
-	request.open('GET', "?page=gameRoom/ivitPlayer/&game="+game+"&player="+player, true)
+	request.open('GET', "?page=playerStat/ivitPlayer/&game="+game+"&player="+player, true)
 	request.send()
 } 
 
@@ -66,7 +66,7 @@ function reloadplayer(game)
 				}
 			}
 	}
-	request.open('GET', "?page=gameRoom/getPlayerView/&game="+game, true)
+	request.open('GET', "?page=playerStat/getPlayerView/&game="+game, true)
 	request.send()
 }
 
@@ -91,7 +91,7 @@ function reloadfriend(game)
 				}
 			}
 	}
-	request.open('GET', "?page=gameRoom/getFriendView/&game="+game, true)
+	request.open('GET', "?page=playerStat/getFriendView/&game="+game, true)
 	request.send()
 }
 
@@ -108,9 +108,6 @@ function init()
 			inviteScript(idGame,player)
 		}
 	
-
-	
-	// console.log(fireButton[0]);
 
 	chroneScript()
 }

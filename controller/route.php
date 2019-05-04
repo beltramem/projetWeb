@@ -17,15 +17,6 @@ function parameters()
 
 if(isset($_SESSION["pseudo"]))
 {
-	// include_once "controller/inGameCheck.php";
-	// if(isset($_SESSION["ingame"]))
-		// {
-			// if($_SESSION["gameState"]=="create")
-			// {
-				// $c = new GameRoomController;
-				// $c->index();
-			// }
-		// }
 	if (isset(parameters()["page"]))
 	{
 		$route = parameters()["page"];
@@ -49,11 +40,11 @@ if(isset($_SESSION["pseudo"]))
 
 elseif(isset(parameters()["page"])&&parameters()["page"]=="accountCreate")
 {
-	$c = new AccountCreateController;
-	$c->index();
+	$c = new PlayerController;
+	$c->create();
 }
 else
 {
-	$c = new ConnexionController;
-	$c->index();
+	$c = new PlayerController;
+	$c->connexion();
 }
