@@ -3,14 +3,12 @@ var camera, scene, renderer;
 
 var map;
 var keybord = {};
-var murHitBox = 0.5 ;
 
 //player variable
 var joueur;
-var vitesseJoueur = 1 ;
+var vitesseJoueur = 2 ;
 var cameraJoueur;
 var lightJoueur;
-var JoueurHitBox = 0.5;
 var direction ;
 var manger = false ;
 var couleurKeke= 0xffffff;
@@ -18,10 +16,12 @@ var couleurblaireau= 0x000000 ;
 var couleurNeutre = 0xFA05FE;
 var joueurCouleur=0xffffff;
 
-
-
 //bonus
 var superV=false;
+var stopVue = false;
+
+//autres
+var bloque = false ;
 
 /*
 1 : haut
@@ -29,19 +29,9 @@ var superV=false;
 3 : bas
 4 : gauche
 */
-function addLights() {
-  var lightOne = new THREE.DirectionalLight(0xffffff);
-  lightOne.position.set(1, 1, 1);
-  scene.add(lightOne);
-
-  var lightTwo = new THREE.DirectionalLight(0xffffff, 0.5);
-  lightTwo.position.set(1, -1, -1);
-  scene.add(lightTwo);
-}
 
 function plateau() {
   var texture = new THREE.TextureLoader().load('texture/sol.jpg');
-console.log(texture)
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set( 4, 4 );
@@ -64,6 +54,7 @@ console.log(texture)
   sol.position.z = ( map.length / 2 ) - 0.5;
   sol.rotation.x=Math.PI / 2; // rotation a 90 °
 }
+
 function creationMur() {
   map = [
     [0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, ],
@@ -74,7 +65,7 @@ function creationMur() {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
     [1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
     [0, 0, 0, 0, 1, 0, 0, 0, 6, 0, 11, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, ],
-    [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, ],
+    [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 0, 6, 0, 0, 0, 0, 0, 1, ],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, ],
     [0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 7, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, ],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, ],
@@ -95,6 +86,8 @@ function creationMur() {
   //Test bonus*****************
   var materialVue = new THREE.MeshBasicMaterial({ color : 0xffff00});
   var materialInconnu = new THREE.MeshBasicMaterial({ color : 0xff0000});
+  var materialInvisible = new THREE.MeshBasicMaterial({ color : 0xff00ff});
+
   //*********************
   //on parcourt la map et on place tous les éléments
   for (var i = 0; i <  map.length; i++) { // parcourt de haut en bas
@@ -120,14 +113,21 @@ function creationMur() {
         cube.position.set(j,0,i);
         scene.add(cube);
       }
+      if(map[i][j] == 3)
+      {
+        var cube = new THREE.Mesh(geometryCube, materialInvisible);
+        cube.position.set(j,0,i);
+        scene.add(cube);
+      }
     }
   }
 }
 
-
 function joueurSpawn(a, b ,c) {
     var geometry = new THREE.BoxGeometry( 1, 1 ); //(largeur,hauteur)
-    var material = new THREE.MeshPhongMaterial({ color: joueurCouleur, });
+    var material = new THREE.MeshBasicMaterial({color: joueurCouleur});
+    material.opacity = 1;
+    material.transparent = true;
     var cube = new THREE.Mesh(geometry, material);
     cameraJoueur = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.01 ,1000);
     cameraJoueur.position.set(0,c,0)
@@ -163,99 +163,83 @@ function render() {
 
 function animate() {
     requestAnimationFrame(animate);
-    //joueur.matrix.extractBasis(right,up,at);//(x,y,z)
     var y = parseInt(joueur.position.x, 10) ;
     var x = parseInt(joueur.position.z, 10) ;
-    //map[x][y]=0;
-    var collision = false ;
-
+      if(bloque == false)
+      {
       if(keybord[38]) {//haut
         if(map[x][y] == 7)
         {
           joueur.children[0].material.color.setHex(couleurNeutre);
-          var t = setTimeout(function(){ joueur.children[0].material.color.setHex(joueurCouleur); }, 500);
+          var t = setTimeout(function(){ joueur.children[0].material.color.setHex(joueurCouleur); }, 2000);
         }
-         /*
-         joueur.position.add(at.multiplyScalar(-vitesseJoueur));
-         joueur.matrix.extractBasis(right,up,at);
-         */
         if((direction == 1)) // haut
         {
-          if(superV==true)
-          {
-            annuleSuperVue(x,y);
-          }
-          if(map[x-(JoueurHitBox+murHitBox)][y] != 1)
+          if(map[x-1][y] != 1)
           {
             joueur.position.z -= 1;
-            if(map[x-(JoueurHitBox+murHitBox)][y] == 6)
+            joueur.translateZ(-vitesseJoueur);
+            if(map[x-1][y] == 6)
             {
-              superVue((x-(JoueurHitBox+murHitBox)), y);
+              superV=true;
+            }
+            if(map[x-1][y] == 3)
+            {
+              Invisible();
+              var t = setTimeout( annuleInvisible , 10000);
             }
           }
         }
         if(direction == 2) // droite
         {
-          if(superV==true)
+          if(map[x][y+1] != 1)
           {
-            annuleSuperVue(x,y+1);
-          }
-          if(map[x][y+(JoueurHitBox+murHitBox)] != 1)
-          {
-            joueur.position.x += vitesseJoueur;
-            if(map[x][y+(JoueurHitBox+murHitBox)] == 6)
+            joueur.position.x += 1 * vitesseJoueur;
+            if(map[x][y+1] == 6)
             {
-              superVue(x,(y+(JoueurHitBox+murHitBox)));
+              superV=true;
+            }
+            if(map[x][y+1] == 3)
+            {
+              Invisible();
+              var t = setTimeout( annuleInvisible , 10000);
             }
           }
         }
         if((direction == 3)) //bas
         {
-          if(superV==true)
+          if(map[x+1][y] != 1)
           {
-            annuleSuperVue(x+1,y);
-          }
-          if(map[x+(JoueurHitBox+murHitBox)][y] != 1)
-          {
-            joueur.position.z += vitesseJoueur;
-            if(map[x+(JoueurHitBox+murHitBox)][y] == 6)
+            joueur.position.z += 1 * vitesseJoueur;
+            if(map[x][y] == 6)
             {
-              superVue((x+(JoueurHitBox+murHitBox)),y);
+              superV=true;
+            }
+            if(map[x+1][y] == 3)
+            {
+              Invisible();
+              var t = setTimeout( annuleInvisible , 10000);
             }
           }
         }
         if((direction == 4) ) //gauche
         {
-          if(superV==true)
+          if(map[x][y-1] != 1)
           {
-            annuleSuperVue(x,y-1);
-          }
-          if(map[x][y] != 1)
-          {
-            joueur.position.x -= vitesseJoueur;
-            if(map[x][y-(JoueurHitBox+murHitBox)] == 6)
+            joueur.position.x -= 1 * vitesseJoueur;
+            if(map[x][y-1] == 6)
             {
-              superVue(x,y-1);
+              superV=true;
+            }
+            if(map[x][y-1] == 3)
+            {
+              Invisible();
+              var t = setTimeout( annuleInvisible , 10000);
             }
           }
         }
         keybord[38]=false;
       }
-      if(keybord[40]) {//bas à enlever
-        if(direction == 1)
-         joueur.position.z += vitesseJoueur;
-          
-        else
-          if(direction == 2)
-            joueur.position.x -= vitesseJoueur;
-          else
-            if(direction == 3)
-              joueur.position.z -= vitesseJoueur;
-            else
-              if(direction == 4)
-                joueur.position.x += vitesseJoueur;
-      }
-
       if(keybord[37] ) {//gauche
         joueur.rotation.y += 90 * Math.PI / 180;
         keybord[37]=false;
@@ -273,6 +257,26 @@ function animate() {
         else
           direction ++;
       }
+    }
+      if(keybord[40]) {
+        if(superV==false)
+        {
+          if(direction == 1) // haut
+            annuleSuperVue(x-1 , y);
+          if(direction == 2) // droite
+            annuleSuperVue(x , y+1);
+          if(direction == 3)//bas
+            annuleSuperVue(x+1,y);
+          if(direction == 4) //gauche
+            annuleSuperVue(x,y-1);
+        }
+        if(superV == true)
+        {
+          superVue(x,y);
+        }
+        keybord[40]=false;
+      }
+
       
     render();
 }
@@ -288,16 +292,37 @@ function annuleSuperVue(x,y){
   cameraJoueur.position.y=0;
   cameraJoueur.lookAt(y,0,x);
   scene.fog.density = 0.5 ;
-  superV=false;
+  bloque=false;
 }
 function superVue(x,y)
 {
-  cameraJoueur.position.y=20;
+  cameraJoueur.position.y=10;
   cameraJoueur.lookAt(y,0,x);
   lightJoueur= new THREE.PointLight( 0xffffff, 1, 100);
   scene.fog.density = 0.00025 ;
-  superV=true;
+  superV= false;
+  bloque=true;
 }
+function Invisible()
+{
+  joueur.children[0].material.opacity = 0 ;
+  //joueur.children[0].material.transparent=true;
+}
+function annuleInvisible()
+{
+  
+  joueur.children[0].material.opacity = 1;
+  //joueur.children[0].material.transparent=true;
+}
+function getPositionX(){
+  console.log("x"+joueur.position.x);
+  //return joueur.position.x ;
+}
+function getPositionY(){
+  console.log("y"+joueur.position.z);
+  //return joueur.position.z ;
+}
+
 function init() {
     // Creation de la scene
     scene = new THREE.Scene();
@@ -316,8 +341,9 @@ function init() {
 
     creationMur();
     plateau();
-    var t = setInterval( changeTeam, 5000);
-
+    //var t = setInterval( changeTeam, 15000);
+    //var x = setInterval( getPositionX, 100);
+    //var y = setInterval( getPositionY, 100);
 
     //permet de savoir le moment où le bouton est appuyé ou relaché
     document.addEventListener('keydown', onKeyDown);
