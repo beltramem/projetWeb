@@ -14,10 +14,31 @@ class FriendrequestController extends Controller
 		$model->add($_SESSION["pseudo"],$recipient);
 	}
 
-	public function getFriendRequest()
+	function getFriendRequestData()
 	{
-		$model = new Model;
+		$model = new model();
 		$data["friendRequest"] = $model->findBy("friendRequest","playerTwo","'".$_SESSION["pseudo"]."'");
-		$this->render("index",$data);
+		return $data;
+	}
+	
+	function getFriendRequestView()
+	{
+		$data = array();
+		$data = $this->getFriendRequestData($data);
+		$this->viewer("friendRequest",$data);
+	}
+	
+	public function index()
+	{
+		$model = new Model();
+		$this->render("index");
+	}
+	
+	public function DropFriendRequest()
+	{
+		$playerOne = parameters()["player"];	
+		$playerTwo = $_SESSION["pseudo"];
+		$model = new FriendrequestModel();
+		$model->drop($playerOne,$playerTwo);
 	}
 }
