@@ -41,6 +41,7 @@ function addLights() {
 
 function plateau() {
   var texture = new THREE.TextureLoader().load('texture/sol.jpg');
+console.log(texture)
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set( 4, 4 );

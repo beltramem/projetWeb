@@ -13,11 +13,13 @@ class SiteController extends Controller
 		$this->viewer("invitations",$data);
 	}
 	
-	public function setFriendRequest()
+	public function getFriendRequest()
 	{
-		$model = new model;
-		// $model->
+		$model = new Model;
+		$data["friendRequest"] = $model->findBy("friendRequest","playerTwo","'".$_SESSION["pseudo"]."'");
+		$this->viewer("friendRequest",$data);
 	}
+	
 
 	public function index() 
 	{

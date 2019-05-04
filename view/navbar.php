@@ -14,6 +14,7 @@
 			<li class="deco"><a href="?page=player/disconnect">déconnexion</a></li> 
 			<li class="mode-menu"><a href="">Jour</a><a href="">nuit</a><a href="">noir</a></li> 
 			<li class="account-menu"><a href="">Mon compte</a></li>
+			<li class="friendRequest-menu"><a href="?page=FriendRequest">Demandes d'amis</a></li>
 			<li class="friend_adder">
 				<a><label>ajouter un amis(pseudo): </label></a>
 				<input type="text" id="invitName" name="name" maxlength="8">

@@ -34,6 +34,26 @@ function invitationScript(game,player){
 	request.send()
 } 
 
+function inviteRequestScript(invitName)
+{
+	var request = createXHR()
+	request.onreadystatechange = function()
+	{
+	}
+	request.open('GET', "?page=Friendrequest/addFriendRequest/&recipient="+invitName, true)
+	request.send()
+}
+
+function init()
+{
+	var inviteByNameButton = document.getElementById("inviteByName")
+	inviteByNameButton.onclick= function()
+		{
+			var invitName = document.getElementById("invitName").value;
+			inviteRequestScript(invitName)
+		}
+}
+
 function chroneScript()
 {
 
@@ -41,4 +61,5 @@ function chroneScript()
 	setTimeout(chroneScript,5000);
 	
 }
+init()
 chroneScript();
