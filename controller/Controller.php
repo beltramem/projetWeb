@@ -28,12 +28,12 @@ class Controller
 		public function viewer($view, $d=null)
 		{
 			global $data;
-			include_once "view/header.php";
+			// include_once "view/header.php";
 			$controller = get_class($this);
 			$model = substr($controller, 0, strpos($controller, "Controller"));
 			$data = $d;
 			include_once "view/".strtolower($model)."/".$view.".php";
-			include_once "view/footer.php";
+			// include_once "view/footer.php";
 		}
 		
 }

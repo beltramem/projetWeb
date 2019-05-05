@@ -13,6 +13,24 @@ class PlayerController extends Controller
 		unset($_SESSION["pseudo"]);
 		header("Location: .");
 	}
+	
+	public function MyAccount()
+	{
+		$model = new PlayerModel;
+		if(empty($_POST["mail"]) && empty($_POST["pass"]) && empty($_POST["pass2"]))
+		{
+			$data=$model->getAccountData($_SESSION["pseudo"]);
+			$this->render("myAccount",$data);
+		}
+		elseif(!empty($_POST["pass"]) && !empty($_POST["pass2"]))
+		{
+			if($_POST["pass"]==$_POST["pass2"])
+			{
+				$md5Pass = md5($_POST["pass"]);
+				$model->setAccountData($_POST["mail"],$md5Pass);
+			}
+		}
+	}
 
 	public function connexion() 
 	{

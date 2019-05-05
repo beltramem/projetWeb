@@ -15,6 +15,8 @@ class PlayerStatModel extends Model
 	private $team;
 
 	
+
+	
 	function joinGame($game,$player)
 	{
 		$query="call join_game(".$game.",'".$player."')";

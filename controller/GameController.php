@@ -676,11 +676,26 @@ class GameController extends Controller
 		}
 		else
 		{
-			//$this->create_map();
 			$this->render("index");
 		}
 	}
 
+	public function gameState()
+	{
+		$model = new GameModel;
+		$data= $model->gameState(parameters()["game"]);
+		$this->viewer("stateGame",$data);
+	}
+	
+	public function start()
+	{
+	
+		$model = new GameModel;
+		$model->start(parameters()["game"]);
+		header("Location: TestThree/");
+		
+	}		
+	
 	public function about()
 	{
 		$this->render("about");

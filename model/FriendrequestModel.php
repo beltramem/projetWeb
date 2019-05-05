@@ -15,7 +15,7 @@ class FriendrequestModel extends Model
 	function drop($playerOne,$playerTwo)
 	{
 		$query ="call drop_friend_request('".$playerOne."','".$playerTwo."')";
-		var_dump($query);
+		// var_dump($query);
 		$st = db()->prepare($query);
 		$st->execute();
 	}

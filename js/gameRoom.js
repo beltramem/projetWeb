@@ -93,6 +93,27 @@ function reloadfriend(game)
 }
 
 
+function realoadGameState(game)
+{
+	var request = createXHR()
+	request.onreadystatechange = function()
+	{
+			if(request.readyState===4)
+			{
+				var labelState = document.getElementById("state_label")
+				labelState.innerHTML = request.responseText
+				var state = labelState.innerHTML
+				console.log(state)
+				if(state =="play")
+				{
+					document.location.href="TestThree"; 
+				}
+			}
+	}
+	request.open('GET', "?page=game/gameState/&game="+game, true)
+	request.send()
+}
+
 function init()
 {
 	var idGame = document.getElementById("gameId")
@@ -113,6 +134,7 @@ function chroneScript()
 {
 	var idGame = document.getElementById("gameId")
 	idGame = idGame.innerHTML
+	realoadGameState(idGame)
 	reloadplayer(idGame);
 	reloadfriend(idGame)
 	setTimeout(chroneScript,5000);

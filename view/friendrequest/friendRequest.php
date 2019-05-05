@@ -7,7 +7,6 @@
 		<tbody>
 			<tr>
 				<?php 
-					var_dump($data);
 					foreach($data["friendRequest"] as $request)
 					{
 					echo "<td>".$request["playerOne"]."</td>";

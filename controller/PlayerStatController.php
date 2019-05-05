@@ -1,6 +1,7 @@
 <?php
 
 require("model/InvitationModel.php");
+require("model/GameModel.php");
 
 class PlayerStatController extends Controller 
 {
@@ -43,10 +44,6 @@ class PlayerStatController extends Controller
 		header("Location:.");
 	}
 	
-	public function start()
-	{
-		
-	}
 	
 	public function getOwner()
 	{
@@ -137,7 +134,7 @@ class PlayerStatController extends Controller
 		$data["owner"] = $this->getOwner();
 		$data["game"]=parameters()["game"];
 		$data["startOk"]=false;
-		if ($_SESSION["pseudo"]==$data["owner"][0]&&($data["nbPlayer"]==count($data["players"])))
+		if ($_SESSION["pseudo"]==$data["owner"][0]&&($data["nbPlayer"][0]==count($data["players"])))
 		{
 			$data["startOk"]=true;
 		}

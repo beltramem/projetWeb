@@ -20,6 +20,22 @@ class PlayerModel extends Model
 		}
 	}
 	
+	function setAccountData($mail,$pass)
+	{
+		$query = "call update_account('".$mail."','".$pass."','".$_SESSION["pseudo"]."')";
+		var_dump($query);
+		db()->exec($query) or die ("c'est pété");
+	}
+	
+	function getAccountData($pseudo)
+	{
+		$query = "call get_player('".$pseudo."')";
+		$st = db()->prepare($query);
+		$st->execute();
+		$playerData = $st->fetch();
+		return $playerData;
+	}
+	
 	function connexion()
 	{
 		

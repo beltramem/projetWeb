@@ -9,6 +9,23 @@ class GameModel extends Model
 	private $state;
 	private $owner;
 	
+	function start($game)
+	{
+		$query = "call start_game(".$game.")";
+		$st = db()->prepare($query);
+		$st->execute();
+	}
+	
+	function gameState($game)
+	{
+		$query = "call get_game_state(".$game.")";
+		
+		$st = db()->prepare($query);
+		$st->execute();
+		$state = $st->fetch(PDO::FETCH_ASSOC);
+		return $state;
+	}
+	
 	function stock_map($map,$id)
 	{
 		$xSize = count($map);
@@ -54,7 +71,6 @@ class GameModel extends Model
 	{
 		// echo $id;
 		$query = "call add_ownerStat('".$_SESSION["pseudo"]."',".$id.")";
-		echo $query;
 		db()->exec($query) or die("c'est pété");
 	}
 	

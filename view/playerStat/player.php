@@ -1,4 +1,3 @@
-<section class="player" id="player_section">
 	<table id="players">
 	<tr>
 		<th>joueurs</th>
@@ -17,4 +16,3 @@
 		}
 	?>
 	</table>
-</section>

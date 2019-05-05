@@ -6,7 +6,7 @@ var keybord = {};
 
 //player variable
 var joueur;
-var vitesseJoueur = 2 ;
+var vitesseJoueur = 1 ;
 var cameraJoueur;
 var lightJoueur;
 var direction ;
