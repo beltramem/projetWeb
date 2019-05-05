@@ -98,22 +98,22 @@ class PartieModel extends Model
 			$player=$_SESSION["pseudo"];
 			switch ($ind){
 				case 2:
-					$upd = db()->prepare("UPDATE playerstat SET incognito=1 WHERE player='admin'");
+					$upd = db()->prepare("UPDATE playerstat SET incognito=1 WHERE player='".$player."'");
 									$upd->execute();
 					break;
 				case 3:
-					$upd = db()->prepare("UPDATE playerstat SET incognito=0 WHERE player='admin'");
+					$upd = db()->prepare("UPDATE playerstat SET incognito=0 WHERE player='".$player."'");
 									$upd->execute();
 					break;
 				//devient invisible
 				case 4:
-					$upd = db()->prepare("UPDATE playerstat SET invisible=1 WHERE player='admin'");
+					$upd = db()->prepare("UPDATE playerstat SET invisible=1 WHERE player='".$player."'");
 									$upd->execute();
 					break;
 				
 				//redevient visible
 				case 5:
-					$upd = db()->prepare("UPDATE playerstat SET invisible=0 WHERE player='admin'");
+					$upd = db()->prepare("UPDATE playerstat SET invisible=0 WHERE player='".$player."'");
 								$upd->execute();
 					break;
 				
@@ -124,12 +124,12 @@ class PartieModel extends Model
 			$players=$this->getPlayersPosition($idGame);
 			for($i=0;$i<count($players);$i++){
 				if($i["team"]=="keke"){
-					$upd = db()->prepare("UPDATE playerstat SET team='blaireau' WHERE player='admin'");
+					$upd = db()->prepare("UPDATE playerstat SET team='blaireau' WHERE player='".$player."'");
 								$upd->execute();
 					break;
 				}
 				else{
-					$upd = db()->prepare("UPDATE playerstat SET team='keke' WHERE player='admin'");
+					$upd = db()->prepare("UPDATE playerstat SET team='keke' WHERE player='".$player."'");
 								$upd->execute();
 				}
 			}
