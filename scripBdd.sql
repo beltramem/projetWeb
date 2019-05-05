@@ -40,17 +40,17 @@ INSERT INTO friendrequest(playerOne,playerTwo) VALUES (p_playerOne,p_playerTwo);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_game` (IN `p_private` TINYINT(1), IN `p_nbPlayer` INT, IN `p_duration` INT, IN `p_owner` VARCHAR(30))  BEGIN 
-	INSERT into game (private,nbPlayer,duration,state,owner) VALUES (p_private,p_nbPlayer,p_duration,"create",p_owner);
+  INSERT into game (private,nbPlayer,duration,state,owner) VALUES (p_private,p_nbPlayer,p_duration,"create",p_owner);
     SELECT LAST_INSERT_ID();
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_ground` (IN `p_placex` INT, IN `p_placey` INT, IN `p_map` INT)  NO SQL
 BEGIN
-	insert into square(placex,placey,val,map) VALUES (p_placex,p-placey,0,p_map);
+  insert into square(placex,placey,val,map) VALUES (p_placex,p-placey,0,p_map);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_invitation` (IN `p_author` VARCHAR(30), IN `p_recipient` VARCHAR(30), IN `p_game` INT)  BEGIN
-	INSERT INTO invitation (author,recipient,game) VALUES ( p_author, p_recipient, p_game);
+  INSERT INTO invitation (author,recipient,game) VALUES ( p_author, p_recipient, p_game);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_map` (IN `p_game` INT, IN `p_nbx` INT, IN `p_nby` INT)  NO SQL
@@ -67,12 +67,12 @@ INSERT into playerstat(id,player,game) VALUES (11,p_pseudo,p_game);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_player` (IN `p_pseudo` VARCHAR(30), IN `p_mail` VARCHAR(150), IN `p_mdp` VARCHAR(150))  BEGIN
-	INSERT INTO player (pseudo,mail,mdp,admin,inspectate) VALUES (p_pseudo,p_mail,p_mdp,0,null);
+  INSERT INTO player (pseudo,mail,mdp,admin,inspectate) VALUES (p_pseudo,p_mail,p_mdp,0,null);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_square` (IN `p_placex` INT, IN `p_placey` INT, IN `p_map` INT, IN `p_val` INT)  NO SQL
 BEGIN
-	insert into square(placex,placey,val,map) VALUES (p_placex,p_placey,p_val,p_map);
+  insert into square(placex,placey,val,map) VALUES (p_placex,p_placey,p_val,p_map);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `drop_friend_request` (IN `p_playerOne` VARCHAR(30), IN `p_playerTwo` VARCHAR(30))  NO SQL
@@ -135,13 +135,13 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_playerName_game` (IN `p_game` INT)  NO SQL
 BEGIN
-	SELECT player from playerstat where game=p_game;
+  SELECT player from playerstat where game=p_game;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_players_position` (IN `p_game` INT)  NO SQL
 BEGIN
 
-	select id,posX, posY from playerstat where game=p_game;
+  select id,posX, posY from playerstat where game=p_game;
 
 END$$
 
@@ -155,7 +155,7 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_square` (IN `p_map` INT, IN `p_x` INT, IN `p_y` INT)  NO SQL
 BEGIN
 
-	SELECT val from square where map=p_map and placeX=p_x and placeY =p_y;
+  SELECT val from square where map=p_map and placeX=p_x and placeY =p_y;
 
 END$$
 
@@ -167,9 +167,9 @@ SELECT * from game where state='create';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `join_game` (IN `p_game` INT, IN `p_pseudo` VARCHAR(30))  BEGIN
-	DECLARE last_id int;
+  DECLARE last_id int;
     SELECT max(id) into last_id from playerstat where game=p_game;
-	INSERT into playerstat(id,player,game) VALUES(last_id+1,p_pseudo,p_game);
+  INSERT into playerstat(id,player,game) VALUES(last_id+1,p_pseudo,p_game);
     DELETE from invitation where recipient=p_pseudo and game=p_game;
 END$$
 
@@ -192,8 +192,8 @@ DELETE from playerstat where player = p_player;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spectate_game` (IN `p_spectator` INT, IN `p_pseudo` VARCHAR(30))  BEGIN
-	UPDATE player
-    	SET spectator = p_spectator
+  UPDATE player
+      SET spectator = p_spectator
     where pseudo = p_pseudo;
 END$$
 
@@ -222,8 +222,27 @@ where pseudo = p_pseudo;
 
 END$$
 
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_players_position`(IN `p_game` INT)
+    NO SQL
+BEGIN
+
+  select id,posX, posY from playerstat where game=p_game;
+
+END$$
 DELIMITER ;
 
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_map`(IN `p_map` INT)
+    NO SQL
+BEGIN
+
+SELECT placeX,placeY,val from square where map=p_map
+order by placeX,placeY;
+
+
+END$$
+DELIMITER ;
 -- --------------------------------------------------------
 
 --
