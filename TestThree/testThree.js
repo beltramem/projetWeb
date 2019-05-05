@@ -170,8 +170,16 @@ function animate() {
       if(keybord[38]) {//haut
         if(map[x][y] == 7)
         {
+
           joueur.children[0].material.color.setHex(couleurNeutre);
+          var objetXHR = new XMLHttpRequest();
+			  objetXHR.open("get","?page=partie/receptionPowerup&change=2",false );
+			  objetXHR.send(null);
+
           var t = setTimeout(function(){ joueur.children[0].material.color.setHex(joueurCouleur); }, 2000);
+        	var objetXHR = new XMLHttpRequest();
+			  objetXHR.open("get","?page=partie/receptionPowerup&change=3",false );
+			  objetXHR.send(null);
         }
         if((direction == 1)) // haut
         {
@@ -283,10 +291,15 @@ function animate() {
 
 function changeTeam(){
   if(joueurCouleur==couleurblaireau)
-    joueurCouleur=couleurKeke;
+      joueurCouleur=couleurKeke;
+ 
   else
     joueurCouleur=couleurblaireau;
   joueur.children[0].material.color.setHex(joueurCouleur);
+
+  var objetXHR = new XMLHttpRequest();
+  objetXHR.open("get","?page=partie/receptionPowerup&change=1",false );
+  objetXHR.send(null);
 }
 function annuleSuperVue(x,y){
   cameraJoueur.position.y=0;
@@ -307,12 +320,18 @@ function Invisible()
 {
   joueur.children[0].material.opacity = 0 ;
   //joueur.children[0].material.transparent=true;
+  var objetXHR = new XMLHttpRequest();
+  objetXHR.open("get","?page=partie/receptionPowerup&change=4",false );
+  objetXHR.send(null);
 }
 function annuleInvisible()
 {
   
   joueur.children[0].material.opacity = 1;
   //joueur.children[0].material.transparent=true;
+  var objetXHR = new XMLHttpRequest();
+  objetXHR.open("get","?page=partie/receptionPowerup&change=5",false );
+  objetXHR.send(null);
 }
 function getPositionX(){
   console.log("x"+joueur.position.x);
