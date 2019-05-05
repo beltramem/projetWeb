@@ -85,62 +85,54 @@ class PartieModel extends Model
 			
 			$pX=$direction["posX"]+$newX;
 			$pY=$direction["posY"]+$newY;
-	/*
-			$map=$this->getMap();
-			$collision=$map->
-				switch ($collison){
-				//sol sans obstacle
-					case 0:
-						$upd = db()->prepare("UPDATE playerstat SET posX=".$pX." , posY=".$pY." WHERE player='".$player."'");
-						$upd->execute();
-						break;
-
-				//mur
-					case 1:
-						break;
-
-				//flaques magiques
-					case 2:
-						break;
-				//invisibilité
-					case 3:
-						$upd = db()->prepare("UPDATE playerstat SET posX=".$pX." , posY=".$pY.", invisible=1 WHERE player='".$player."'");
-						$upd->execute();
-						break;
-					//bottes magiques
-					case 4:
-						$bonus=4;
-						$upd = db()->prepare("UPDATE playerstat SET posX=".$pX." , posY=".$pY.", boots=1 WHERE player='".$player."'");
-						$upd->execute();
-						break;
-					//bouclier
-					case 5:
-						$bonus=5;
-						$upd = db()->prepare("UPDATE playerstat SET posX=".$pX." , posY=".$pY.", shield=1 WHERE player='".$player."'");
-						$upd->execute();
-						break;
-					//supervue
-					case 6:
-						$bonus=6;
-						$upd = db()->prepare("UPDATE playerstat SET posX=".$pX." , posY=".$pY.", superView=1 WHERE player='".$player."'");
-						$upd->execute();
-						break;
-					//incognito
-					case 7:
-						$bonus=7;
-						$upd = db()->prepare("UPDATE playerstat SET posX=".$pX." , posY=".$pY.", incognito=1 WHERE player='".$player."'");
-						$upd->execute();
-						break;
-
-*/
-						$upd = db()->prepare("UPDATE playerstat SET posX=".$pX." , posY=".$pY." WHERE player='".$player."'");
-						$upd->execute();
-						break;
+			$upd = db()->prepare("UPDATE playerstat SET posX=".$pX." , posY=".$pY." WHERE player='".$player."'");
+			$upd->execute();
+			break;
 			}
 		}
-				     
-			
-		
+	
 
 	}
+	
+	public function setPowerup($ind){
+			$player=$_SESSION["pseudo"];
+			switch ($ind){
+				case 2:
+					$upd = db()->prepare("UPDATE playerstat SET incognito=1 WHERE player='admin'");
+									$upd->execute();
+					break;
+				case 3:
+					$upd = db()->prepare("UPDATE playerstat SET incognito=0 WHERE player='admin'");
+									$upd->execute();
+					break;
+				//devient invisible
+				case 4:
+					$upd = db()->prepare("UPDATE playerstat SET invisible=1 WHERE player='admin'");
+									$upd->execute();
+					break;
+				
+				//redevient visible
+				case 5:
+					$upd = db()->prepare("UPDATE playerstat SET invisible=0 WHERE player='admin'");
+								$upd->execute();
+					break;
+				
+			}
+		}
+
+		public function changeTeam(){
+			$players=$this->getPlayersPosition($idGame);
+			for($i=0;$i<count($players);$i++){
+				if($i["team"]=="keke"){
+					$upd = db()->prepare("UPDATE playerstat SET team='blaireau' WHERE player='admin'");
+								$upd->execute();
+					break;
+				}
+				else{
+					$upd = db()->prepare("UPDATE playerstat SET team='keke' WHERE player='admin'");
+								$upd->execute();
+				}
+			}
+			
+		}
 }
