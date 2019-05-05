@@ -36,11 +36,31 @@ class partieController extends Controller
 				$em->setPlayersPosition(1); break;
 		}
 
-		/*
-		$oiseaux=new SimpleXMLElement("<messages/>");
-		$oiseaux->addChild("message",$touche);
-		$oiseaux->asXML('data2.xml');
-		*/
+	}
+	
+	function receptionPowerup(){
+		$em=new PartieModel();
+		$key=$_GET["change"];
+		
+		switch ($key){
+		//on change le joueur d'équipe
+			case '1':
+				$em->changeTeam(); break;
+		//le joueur devient neutre
+			case '2':
+				$em->setPowerup(2); break;
+		//le joueur n'est plus neutre
+			case '3':
+				$em->setPowerup(3); break;
+		//le joueur devient invisible
+			case '4':
+				$em->setPowerup(4); break;
+		//le joueur redevient visible
+			case '5':
+				$em->setPowerup(5); break;
+			
+		}
+
 	}
 
 	function affichage(){
