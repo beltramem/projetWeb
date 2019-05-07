@@ -141,7 +141,7 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_players_position` (IN `p_game` INT)  NO SQL
 BEGIN
 
-  select id,posX, posY from playerstat where game=p_game;
+  select id,posX, posY, direction, team from playerstat where game=p_game;
 
 END$$
 
@@ -363,32 +363,34 @@ INSERT INTO `player` (`pseudo`, `mail`, `admin`, `inspectate`, `mdp`) VALUES
 --
 -- Structure de la table `playerstat`
 --
-
 CREATE TABLE `playerstat` (
   `id` int(11) NOT NULL,
   `player` varchar(30) NOT NULL,
   `game` int(11) NOT NULL,
   `posX` int(11) NOT NULL DEFAULT '0',
   `posY` int(11) NOT NULL DEFAULT '0',
+  `direction` int(11) NOT NULL,
   `invisible` tinyint(1) NOT NULL DEFAULT '0',
   `boots` tinyint(1) NOT NULL DEFAULT '0',
   `shield` tinyint(1) NOT NULL DEFAULT '0',
   `superView` tinyint(1) NOT NULL DEFAULT '0',
   `incognito` tinyint(1) DEFAULT NULL,
   `team` enum('blaireau','keke',',') DEFAULT NULL
+
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `playerstat`
 --
 
-INSERT INTO `playerstat` (`id`, `player`, `game`, `posX`, `posY`, `invisible`, `boots`, `shield`, `superView`, `incognito`, `team`) VALUES
-(12, 'dongle', 171, 0, 0, 0, 0, 0, 0, NULL, NULL),
-(14, 'admin2', 171, 0, 0, 0, 0, 0, 0, NULL, NULL),
-(15, 'admin', 171, 0, 0, 0, 0, 0, 0, NULL, NULL),
-(11, 'admin', 172, 0, 0, 0, 0, 0, 0, NULL, NULL),
-(12, 'admin2', 172, 0, 0, 0, 0, 0, 0, NULL, NULL),
-(13, 'dongle', 172, 0, 0, 0, 0, 0, 0, NULL, NULL);
+INSERT INTO `playerstat` (`id`, `player`, `game`, `posX`, `posY`, `direction`,`invisible`, `boots`, `shield`, `superView`, `incognito`, `team`) VALUES
+(12, 'dongle', 171, 0, 0,0, 0, 0, 0, 0, NULL, NULL),
+(14, 'admin2', 157, 2, 2,0, 0, 0, 0, 0, NULL, NULL),
+(15, 'admin', 157, 27, 27 ,0,0, 0, 0, 0, NULL, NULL),
+(11, 'admin', 172, 0, 0, 0, 0,0, 0, 0, NULL, NULL),
+(12, 'admin2', 172, 0, 0, 0, 0,0, 0, 0, NULL, NULL),
+(13, 'dongle', 172, 0, 0, 0, 0, 0,0, 0, NULL, NULL);
+
 
 -- --------------------------------------------------------
 
@@ -641,7 +643,7 @@ INSERT INTO `square` (`map`, `placeX`, `placeY`, `val`) VALUES
 (171, 23, 26, 0),
 (171, 23, 25, 0),
 (171, 23, 24, 0),
-(171, 23, 23, 9),
+(171, 23, 23, 0),
 (171, 23, 22, 0),
 (171, 23, 21, 0),
 (171, 23, 20, 0),
@@ -1080,7 +1082,7 @@ INSERT INTO `square` (`map`, `placeX`, `placeY`, `val`) VALUES
 (171, 11, 7, 0),
 (171, 11, 6, 0),
 (171, 11, 5, 0),
-(171, 11, 4, 8),
+(171, 11, 4, 0),
 (171, 11, 3, 0),
 (171, 11, 2, 0),
 (171, 11, 1, 0),
