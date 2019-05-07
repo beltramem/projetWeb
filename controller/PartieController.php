@@ -68,7 +68,7 @@ class partieController extends Controller
 		
 		$map=$this->getmap();
 		$joueurs=$this->getPlayersPosition();
-		var_dump($joueurs);
+		//var_dump($joueurs);
 		
 		$nbrX=count($map);
 		for($x=0;$x<$nbrX;$x++)
